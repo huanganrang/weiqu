@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="rml.dao.ChannelMapper" >
+    <resultMap id="BaseResultMap" type="rml.model.Channel" >
+        <id column="id" property="id"  />
+        <result column="name" property="name"  />
+        <result column="short_desc" property="shortDesc"  />
+        <result column="category_id" property="categoryId"  />
+        <result column="channel_icon" property="channelIcon"/>
+        <result column="nick_name" property="nickName"/>
+        <result column="online_user_count" property="userOnlineCount"/>
+        <result column="category_name" property="categoryName"/>
+        <result column="display_icon_url" property="displayIconUrl"/>
+        <result column="user_token" property="userToken"/>
+    </resultMap>
+
+    <sql id="Base_Column_List" >
+      id,name,url,short_desc,category_id,channel_icon,token,display_icon_url
+    </sql>
+
+
+    <select id="getChannel" resultMap="BaseResultMap" parameterType="java.lang.String" >
+        select
+        <include refid="Base_Column_List" />
+        from tb_channel b
+        where token = #{token}
+        and status = 1
+    </select>
+
+    <select id="getUserChannel" resultMap="BaseResultMap" parameterType="rml.model.Channel" >
+        select
+        <include refid="Base_Column_List" />
+        from tb_channel b
+        where user_id = #{userId}
+        and status = 1
+        order by online_user_count desc limit #{startSize},#{pageSize}
+    </select>
+
+
+    <select id="getUserChannelTotal" resultMap="BaseResultMap" parameterType="rml.model.Channel" >
+        select
+        <include refid="Base_Column_List" />
+        from tb_channel b
+        where user_id = #{userId}
+        and status = 1
+    </select>
+
+
+    <select id="count" resultType="java.lang.Integer">
+        select count(id)
+        from tb_channel b
+        where status = 1
+    </select>
+
+    <select id="getChannelPage" resultMap="BaseResultMap" parameterType="rml.model.Channel" >
+             select
+        a.id,a.name,a.url,a.short_desc,a.category_id,a.channel_icon,a.token,b.nick_name,a.online_user_count,c.name as category_name,a.display_icon_url,b.token as user_token
+        from tb_channel a,tb_user b,tb_channel_category c
+        where b.id = a.user_id and c.id = a.category_id
+        and status = 1
+        order by online_user_count desc limit #{startSize},#{pageSize}
+    </select>
+
+
+    <insert id="createChannel" parameterType="rml.model.Channel" >
+        insert into tb_channel(id,name,
+        short_desc,category_id,channel_icon,token,display_icon_url,user_id,status)
+        values (#{id},#{name}, #{shortDesc},#{categoryId},#{channelIcon},#{token},#{displayIconUrl},#{userId},1
+        )
+    </insert>
+
+    <insert id="updateChannel" parameterType="rml.model.Channel" >
+       update tb_channel set url = #{url} where token = #{token}
+    </insert>
+
+    <update id="updateChannelUser" parameterType="java.lang.Integer" >
+        update tb_channel b set online_user_count = b.online_user_count+1 where id = #{id}
+    </update>
+
+    <update id="minusChannelUser" parameterType="java.lang.Integer" >
+        update tb_channel b set online_user_count = b.online_user_count-1 where id = #{id}
+    </update>
+
+    <update id="deleteChannel" parameterType="java.lang.Integer" >
+        update tb_channel b set status =0 where id = #{id}
+    </update>
+</mapper>

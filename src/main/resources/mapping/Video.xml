@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="rml.dao.VideoMapper" >
+    <resultMap id="BaseResultMap" type="rml.model.Video" >
+        <id column="id" property="id"  />
+        <result column="house_id" property="houseId"  />
+        <result column="house_id" property="houseId"  />
+        <result column="token" property="token"  />
+        <result column="pull_url" property="pullUrl"  />
+        <result column="name" property="name"  />
+    </resultMap>
+
+    <sql id="Base_Column_List" >
+        id,name,house_id,token,pull_url
+    </sql>
+
+
+    <select id="getVideoInfo" resultMap="BaseResultMap" parameterType="java.lang.String" >
+        select
+        <include refid="Base_Column_List" />
+        from tb_video b
+        where token = #{token} and status = 1;
+    </select>
+
+    <insert id="createVideo" parameterType="rml.model.Video" >
+        insert into tb_video(id,name,house_id,
+        pull_url,token,status)
+                values (#{id},#{name}, #{houseId},
+        #{pullUrl},#{token},1
+        )
+    </insert>
+
+    <update id="updateVideo" parameterType="rml.model.Video" >
+        update tb_video set push_url = #{pushUrl}, pull_url = #{pullUrl}
+        where token = #{token}
+    </update>
+
+
+    <update id="deleteVideo" parameterType="java.lang.String" >
+        update tb_video set status = 2
+        where token = #{token}
+    </update>
+
+    <select id="getHouseVideo" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+        select
+        <include refid="Base_Column_List" />
+        from tb_video b
+        where house_id = #{houseId} and status = 1;
+    </select>
+
+
+</mapper>

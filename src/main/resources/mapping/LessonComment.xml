@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="rml.dao.LessonCommentMapper" >
+    <resultMap id="BaseResultMap" type="rml.model.LessonComment" >
+        <id column="id" property="id"  />
+        <result column="title" property="title"  />
+        <result column="lesson_id" property="lessonId"  />
+        <result column="token" property="token"  />
+        <result column="user_id" property="userId"  />
+        <result column="create_time" property="createTime"  />
+        <result column="imgs" property="imgs"  />
+    </resultMap>
+    <sql id="Base_Column_List" >
+        id, title,lesson_id,token,user_id,create_time,content,imgs
+    </sql>
+
+
+
+
+    <select id="getCommentById" resultMap="BaseResultMap" parameterType="rml.model.LessonComment" >
+        select
+        <include refid="Base_Column_List" />
+        from tb_lesson_comment b
+        where id = #{id}
+    </select>
+
+    <select id="getCommentByToken" resultMap="BaseResultMap" parameterType="java.lang.String" >
+        select
+        <include refid="Base_Column_List" />
+        from tb_lesson_comment b
+        where token = #{token}
+    </select>
+
+
+    <select id="getLessonComments"  resultMap="BaseResultMap" parameterType="rml.model.LessonComment" >
+        select
+        <include refid="Base_Column_List" />
+        from tb_lesson_comment b
+        where lesson_id = #{lessonId}
+        order by create_time desc
+        limit #{startSize},#{pageSize}
+    </select>
+
+
+    <select id="getLessonCommentsTotal"  resultMap="BaseResultMap" parameterType="rml.model.LessonComment" >
+        select
+        <include refid="Base_Column_List" />
+        from tb_lesson_comment b
+        where lesson_id = #{lessonId}
+    </select>
+
+
+    <insert id="createComment" parameterType="rml.model.LessonComment" >
+        insert into tb_lesson_comment(content,user_id,token,lesson_id,create_time,imgs,status)
+        values (#{content},#{userId},#{token},#{lessonId},#{createTime},#{imgs},1
+        )
+    </insert>
+
+
+    <insert id="deleteComment" parameterType="rml.model.LessonComment" >
+       update tb_lesson_comment set status = 2 where token=#{token}
+    </insert>
+
+
+</mapper>

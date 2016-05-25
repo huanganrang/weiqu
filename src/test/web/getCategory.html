@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+</head>
+
+
+<body>
+<div id="result"></div>
+
+<script src="../web/lib/jquery-1.11.3.min.js"></script>
+
+<script type="text/javascript" language="javascript">
+    var local = "http://localhost:8080";
+    var remote = "http://139.196.34.76:8080";
+    function getCategory(){
+        jQuery.ajax({
+            type: "Get",
+            url: remote+"/Category/Category",
+            contentType:'application/json;charset=UTF-8',
+            dataType:"json",
+            success:function (data, status, jqXHR) {
+                alert(JSON.stringify(data.returnObject));
+                $("#result").html(JSON.stringify(data.returnObject));
+            },
+            error: ""
+        });
+    }
+    getCategory();
+</script>
+</body>
+
+</html>

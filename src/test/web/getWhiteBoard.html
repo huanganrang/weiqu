@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+</head>
+<body>
+<table>
+    <tr>
+        <td>房间Id:</td>
+        <td><input type="text" id="houseId" name="houseId"/></td>
+    </tr>
+
+    <tr>
+        <td>用户token:</td>
+        <td><input type="text" id="userToken" name="userToken"/></td>
+    </tr>
+
+    <tr>
+        <td>相对于视频开始播放的白板开始录制时间:</td>
+        <td><input type="text" id="startTime" name="startTime" value="09:08"/></td>
+    </tr>
+
+
+    <tr>
+        <td>白板视频名称:</td>
+        <td><input type="text" id="name" name="name" /></td>
+        <td><input type="button" id="click" onclick="createChat()" value="提交" /></td>
+    </tr>
+
+
+    <div id="result"></div>
+</table>
+<script type="application/javascript">
+    var local = "http://localhost:8080";
+    var remote = "http://139.196.34.76";
+    function createChat(){
+        var houseId = $("#houseId").val();
+        var userToken = $("#userToken").val();
+        var name =$("#name").val();
+        var startTime = $("#startTime").val();
+        jQuery.ajax({
+            type: "POST",
+            url: remote+"/WhiteBoard/WhiteBoard",
+            contentType:'application/json;charset=UTF-8',
+            data: JSON.stringify({"houseId":houseId,"userToken":userToken,"name":name,"startTime":startTime}),
+            dataType:"json",
+            success:function (data, status, jqXHR) {
+                $("#result").html(JSON.stringify(data.returnObject));
+            },
+            error: ""
+        });
+    }
+
+
+    function getChat(){
+        var houseId = $("#houseId").val();
+        var userToken = $("#userToken").val();
+        var content =$("#content").val();
+        jQuery.ajax({
+            type: "Get",
+            url: local+"/Chat/Chat",
+            contentType:'application/json;charset=UTF-8',
+            data: {"houseId":houseId,"userToken":userToken},
+            dataType:"json",
+            success:function (data, status, jqXHR) {
+                $("#result").html(JSON.stringify(data.returnObject));
+            },
+            error: ""
+        });
+    }
+</script>
+</body>
+<script src="../web/lib/jquery-1.11.3.min.js"></script>
+</html>

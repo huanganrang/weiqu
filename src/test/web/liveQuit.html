@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+</head>
+<body>
+<table>
+    <tr>
+        <td>video token:</td>
+        <td><input type="text" id="token" name="token"/></td>
+        <td><input type="button" value="提交" onclick="createChannel();"/></td>
+    </tr>
+
+
+
+
+
+    <div id="result"></div>
+</table>
+<script type="application/javascript">
+    var local = "http://localhost:8080";
+    var remote = "http://139.196.34.76:8080";
+    function createChannel(){
+        var token = $("#token").val();
+        jQuery.ajax({
+            type: "DELETE",
+            url: remote+"/Video/Video?token="+token,
+            contentType:'application/json;charset=UTF-8',
+            dataType:"json",
+            success:function (data, status, jqXHR) {
+                $("#result").html(JSON.stringify(data.returnValue));
+            },
+            error: ""
+        });
+    }
+</script>
+</body>
+<script src="../web/lib/jquery-1.11.3.min.js"></script>
+</html>

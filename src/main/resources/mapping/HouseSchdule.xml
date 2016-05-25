@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="rml.dao.HouseScheduleMapper" >
+    <resultMap id="BaseResultMap" type="rml.model.HouseSchedule" >
+        <id column="id" property="id"  />
+        <result column="start_date" property="startDate"  />
+        <result column="end_date" property="endDate"  />
+        <result column="house_id" property="houseId"  />
+        <result column="create_time" property="createTime"/>
+    </resultMap>
+
+    <sql id="Base_Column_List" >
+      id,start_date,end_date,house_id,create_time
+    </sql>
+
+    <insert id="deleteScheduls" parameterType="java.lang.Integer" >
+       delete from tb_house_schedule where house_id=#{hosueId}
+    </insert>
+
+
+    <insert id="createSchedule" parameterType="rml.model.HouseSchedule" >
+        insert into tb_house_schedule(start_date,
+        end_date,house_id,create_time)
+        values (#{startDate}, #{endDate},#{houseId},#{createTime}
+        )
+    </insert>
+
+    <select id="getHouseSchedules" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+        select
+        <include refid="Base_Column_List" />
+        from tb_house_schedule
+        where house_id = #{houseId}
+    </select>
+</mapper>

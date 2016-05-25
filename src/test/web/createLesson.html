@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+</head>
+<body>
+<table>
+    <tr>
+        <td>课程名称:</td>
+        <td><input type="text" id="name" name="name"/></td>
+    </tr>
+
+    <tr>
+        <td>课程上传人token:</td>
+        <td><input type="text" id="userToken" name="userToken"/></td>
+    </tr>
+    <tr>
+        <td>课程视频文件名称:</td>
+        <td><input type="text" id="link" name="link"/></td>
+    </tr>
+
+
+    <tr>
+        <td>课程描述:</td>
+        <td><input type="text" id="desc" name="desc"/></td>
+    </tr>
+
+
+    <tr>
+        <td>课程显示图标:</td>
+        <td><input type="text" id="icon" name="icon"/></td>
+        <td>这个暂时先填一个字符串就可以了,等文件上传接口</td>
+    </tr>
+
+    <tr>
+        <td>社区token:</td>
+        <td><input type="text" id="communityToken" name="communityToken"/></td>
+        <td><input type="button" onclick="createLesson();" value="提交"> </td>
+    </tr>
+
+    <div id="result"></div>
+</table>
+<script type="application/javascript">
+    var local = "http://localhost:8080";
+    var remote = "http://139.196.34.76";
+    function createLesson(){
+        var name = $("#name").val();
+        var userToken = $("#userToken").val();
+        var categoryId =$("#categoryId").val();
+        var link =$("#link").val();
+        var desc =$("#desc").val();
+        var communityToken =$("#communityToken").val();
+        var icon =$("#icon").val();
+        jQuery.ajax({
+            type: "POST",
+            url: local+"/Lesson/Lesson",
+            contentType:'application/json;charset=UTF-8',
+            data: JSON.stringify({"icon":icon,"name":name,"userToken":userToken,"categoryId":categoryId,"link":link,"desc":desc,"communityToken":communityToken}),
+            dataType:"json",
+            success:function (data, status, jqXHR) {
+                alert(data.returnObject);
+                $("#result").html(JSON.stringify(data.returnObject));
+            },
+            error: ""
+        });
+    }
+</script>
+</body>
+<script src="../web/lib/jquery-1.11.3.min.js"></script>
+</html>

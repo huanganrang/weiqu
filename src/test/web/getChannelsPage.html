@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+</head>
+<body>
+<table>
+
+    <tr>
+        <td>页面记录数量:</td>
+        <td><input type="text" id="pageSize" name="pageSize"/></td>
+    </tr>
+
+    <tr>
+        <td>页号:</td>
+        <td><input type="text" id="pageNo" name="pageNo"/></td>
+        <td><input type="button" value="提交" onclick="getVideo();"/></td>
+    </tr>
+
+    <div id="result"></div>
+</table>
+<script type="application/javascript">
+    var local = "http://localhost:8080";
+    var remote = "http://service.weiqu168.com:8080";
+    function getVideo(){
+        var pageSize = $("#pageSize").val();
+        var pageNo = $("#pageNo").val();
+        jQuery.ajax({
+            type: "GET",
+            url: remote+"/Channel/Page",
+            contentType:'application/json;charset=UTF-8',
+            data:{"pageSize":pageSize,"pageNo":pageNo},
+            dataType:"json",
+            success:function (data, status, jqXHR) {
+                $("#result").html(JSON.stringify(data.returnObject));
+            },
+            error: ""
+        });
+    }
+</script>
+</body>
+<script src="../web/lib/jquery-1.11.3.min.js"></script>
+</html>

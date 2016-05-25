@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+</head>
+<body>
+<table>
+    <tr>
+        <td>房间名称:</td>
+        <td><input type="text" id="title" name="title"/></td>
+    </tr>
+
+    <tr>
+        <td>密码:</td>
+        <td><input type="text" id="password" name="password"/></td>
+    </tr>
+
+    <tr>
+        <td>用户token:</td>
+        <td><input type="text" id="userToken" name="userToken"/></td>
+    </tr>
+
+    <tr>
+        <td>开始时间:</td>
+        <td><input type="text" id="startTime" name="startTime" value="2015-09-09 12:03:08"/></td>
+    </tr>
+
+    <tr>
+        <td>结束时间:</td>
+        <td><input type="text" id="endTime" name="endTime" value="2015-09-18 12:09:08"/></td>
+    </tr>
+
+    <tr>
+        <td>频道token:</td>
+        <td><input type="text" id="channelToken" name="channelToken" /></td>
+        <td><input type="button" id="click" onclick="createChannel()" value="提交" /></td>
+    </tr>
+
+
+    <div id="result"></div>
+</table>
+<script type="application/javascript">
+    var local = "http://localhost:8080";
+    var remote = "http://service.weiqu168.com:8080";
+    function createChannel(){
+        var password = $("#password").val();
+        var title = $("#title").val();
+        var startTime =$("#startTime").val();
+        var endTime =$("#endTime").val();
+        var channelToken =$("#channelToken").val();
+        var userToken =$("#userToken").val();
+        jQuery.ajax({
+            type: "POST",
+            url: remote+"/House/House",
+            contentType:'application/json;charset=UTF-8',
+            data: JSON.stringify({"title":title,"password":password,"startTime":startTime,"endTime":endTime,"channelToken":channelToken,"userToken":userToken}),
+            dataType:"json",
+            success:function (data, status, jqXHR) {
+                $("#result").html(JSON.stringify(data.returnObject));
+            },
+            error: ""
+        });
+    }
+</script>
+</body>
+<script src="../web/lib/jquery-1.11.3.min.js"></script>
+</html>

@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+</head>
+<body>
+<table>
+    <tr>
+        <td>社区token:</td>
+        <td><input type="text" id="communityToken" name="communityToken"/></td>
+        <td><input type="button" value="提交" onclick="getVideo();"/></td>
+    </tr>
+
+    <div id="result"></div>
+</table>
+<script type="application/javascript">
+    var local = "http://localhost:8080";
+    var remote = "http://139.196.34.76";
+    function getVideo(){
+        var communityToken = $("#communityToken").val();
+        jQuery.ajax({
+            type: "GET",
+            url: local+"/Community/Lessons",
+            contentType:'application/json;charset=UTF-8',
+            data:{"communityToken":communityToken},
+            dataType:"json",
+            success:function (data, status, jqXHR) {
+                $("#result").html(JSON.stringify(data.returnObject));
+            },
+            error: ""
+        });
+    }
+</script>
+</body>
+<script src="../web/lib/jquery-1.11.3.min.js"></script>
+</html>

@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="rml.dao.CommunityMapper" >
+    <resultMap id="BaseResultMap" type="rml.model.Community" >
+        <id column="id" property="id"  />
+        <result column="name" property="name"  />
+        <result column="short_desc" property="shortDesc"  />
+        <result column="category_id" property="categoryId"  />
+        <result column="icon" property="icon"/>
+        <result column="user_id" property="userId"/>
+        <result column="default_img" property="defaultImg"/>
+        <result column="category_name" property="categoryName"/>
+    </resultMap>
+
+    <sql id="Base_Column_List" >
+      id,name,url,short_desc,category_id,icon,token,user_id,default_img,category_name
+    </sql>
+
+    <select id="getUser" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+        select
+        <include refid="Base_Column_List" />
+        from tb_community b
+        where id = #{id}
+    </select>
+
+
+    <select id="getCommunity" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+        select
+        <include refid="Base_Column_List" />
+        from tb_community b
+        where id = #{id}
+    </select>
+
+    <insert id="createCommunity" parameterType="rml.model.Community" >
+        insert into tb_community(id,name,
+        short_desc,category_id,icon,token,user_id,default_img,category_name)
+        values (#{id},#{name}, #{shortDesc},#{categoryId},#{icon},#{token},#{userId},#{defaultImg},#{categoryName}
+        )
+    </insert>
+
+
+    <select id="getCommunityByToken" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+        select
+        <include refid="Base_Column_List" />
+        from tb_community b
+        where token = #{token}
+    </select>
+
+    <insert id="updateCommunity" parameterType="rml.model.Community" >
+       update tb_community set url = #{url} where token = #{token}
+    </insert>
+
+
+    <select id="getCommunityById" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+        select
+        <include refid="Base_Column_List" />
+        from tb_community b
+        where id = #{id}
+    </select>
+
+
+
+    <select id="getUserCommunity" resultMap="BaseResultMap" parameterType="rml.model.Community" >
+        select
+        <include refid="Base_Column_List" />
+        from tb_community b
+        where user_id = #{userId}
+    </select>
+
+
+    <select id="getCommunities" resultMap="BaseResultMap" parameterType="rml.model.Community" >
+        select
+        <include refid="Base_Column_List" />
+        from tb_community b
+        where user_id = #{userId}
+    </select>
+
+
+    <select id="getALLCommunities" resultMap="BaseResultMap" parameterType="rml.model.Community" >
+        select
+        <include refid="Base_Column_List" />
+        from tb_community b limit #{startSize},#{pageSize}
+    </select>
+
+
+    <select id="getUserCommunitiesTotal" resultMap="BaseResultMap" parameterType="rml.model.Community" >
+        select
+        b.id as id,name,url,short_desc,category_id,icon,token,b.user_id as user_id,default_img,category_name
+        from tb_community b,tb_community_member a
+        where a.community_id = b.id
+        and a.user_id=#{userId}
+    </select>
+
+    <select id="getUserCommunities" resultMap="BaseResultMap" parameterType="rml.model.Community" >
+        select
+      b.id as id,name,url,short_desc,category_id,icon,token,b.user_id as user_id,default_img,category_name
+        from tb_community b,tb_community_member a
+        where a.community_id = b.id
+        and a.user_id=#{userId}
+        limit #{startSize},#{pageSize}
+    </select>
+</mapper>

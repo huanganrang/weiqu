@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+        <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="rml.dao.HouseFileMapper" >
+<resultMap id="BaseResultMap" type="rml.model.HouseFile" >
+    <id column="id" property="id"  />
+    <result column="name" property="name"  />
+    <result column="house_id" property="houseId"  />
+    <result column="user_id" property="userId"  />
+    <result column="token" property="token"/>
+    <result column="create_time" property="createTime"/>
+    <result column="name" property="name"/>
+    <result column="type" property="type"/>
+</resultMap>
+
+<sql id="Base_Column_List" >
+    id,name,url,short_desc,category_id,channel_icon,token
+</sql>
+
+
+
+<insert id="createHouseFile" parameterType="rml.model.HouseFile" >
+    insert into tb_house_file(id,house_id,
+    user_id,token,create_time,name,type)
+    values (#{id},#{houseId}, #{userId},#{token},#{createTime},#{name},#{type}
+    )
+</insert>
+
+</mapper>

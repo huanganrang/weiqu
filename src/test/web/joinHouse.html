@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+</head>
+<body>
+<table>
+    <tr>
+        <td>房间id:</td>
+        <td><input type="text" id="houseId" name="houseId"/></td>
+    </tr>
+
+    <tr>
+        <td>用户token:</td>
+        <td><input type="text" id="userToken" name="userToken"/></td>
+    </tr>
+
+    <tr>
+        <td>用户级别描述:</td>
+        <td><input type="text" id="identification" name="identification"/></td>
+        <td>0,普通用户，1管理员，3，游客</td>
+        <td><input type="button" value="提交" onclick="joinHouse();"/></td>
+    </tr>
+
+
+
+    <div id="result"></div>
+</table>
+<script type="application/javascript">
+    var local = "http://localhost:8080";
+    var remote = "http://139.196.34.76";
+    function joinHouse(){
+        var houseId = $("#houseId").val();
+        var userToken = $("#userToken").val();
+        var identification =$("#identification").val();
+        jQuery.ajax({
+            type: "POST",
+            url: local+"/HouseUser/HouseUser",
+            contentType:'application/json;charset=UTF-8',
+            data: JSON.stringify({"houseId":houseId,"userToken":userToken,"identification":identification}),
+            dataType:"json",
+            success:function (data, status, jqXHR) {
+                $("#result").html(JSON.stringify(data.returnObject));
+            },
+            error: ""
+        });
+    }
+</script>
+</body>
+<script src="../web/lib/jquery-1.11.3.min.js"></script>
+</html>

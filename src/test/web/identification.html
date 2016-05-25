@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+</head>
+<body>
+<table>
+    <tr>
+        <td>用户token:</td>
+        <td><input type="text" id="userToken" name="userToken"/></td>
+    </tr>
+
+    <tr>
+        <td>房间token:</td>
+        <td><input type="text" id="houseToken" name="houseToken"/></td>
+    </tr>
+
+    <tr>
+        <td>类型描述:</td>
+        <td><input type="text" id="identification" name="identification"/></td>
+        <td><input type="button" value="提交" onclick="login();"/>
+    </tr>
+    <div id="result"></div>
+</table>
+<script type="application/javascript">
+    var local = "http://localhost:8080";
+    var remote = "http://139.196.34.76:8080";
+
+    function login(){
+        var userToken = $("#userToken").val();
+        var houseToken = $("#houseToken").val();
+        var identification = $("#identification").val();
+        jQuery.ajax({
+            type: "PUT",
+            url: local+"/HouseUser/HouseUser",
+            contentType:'application/json;charset=UTF-8',
+            data:JSON.stringify({"userToken":userToken,"houseToken":houseToken,"identification":identification}),
+            dataType:"json",
+            success:function (data, status, jqXHR) {
+                $("#result").val(data.returnValue);
+            },
+            error: ""
+        });
+    }
+</script>
+</body>
+<script src="../web/lib/jquery-1.11.3.min.js"></script>
+</html>

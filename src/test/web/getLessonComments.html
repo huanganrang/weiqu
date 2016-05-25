@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+</head>
+<body>
+<table>
+    <tr>
+        <td>课程token:</td>
+        <td><input type="text" id="lessonToken" name="lessonToken"/></td>
+        <td><input type="button" value="提交" onclick="getVideo();"/></td>
+    </tr>
+
+    <div id="result"></div>
+</table>
+<script type="application/javascript">
+    var local = "http://localhost:8080";
+    var remote = "http://139.196.34.76";
+    function getVideo(){
+        var token = $("#lessonToken").val();
+        jQuery.ajax({
+            type: "GET",
+            url: local+"/Lesson/Comments",
+            contentType:'application/json;charset=UTF-8',
+            data:{"token":token},
+            dataType:"json",
+            success:function (data, status, jqXHR) {
+                $("#result").html(JSON.stringify(data.returnObject));
+            },
+            error: ""
+        });
+    }
+</script>
+</body>
+<script src="../web/lib/jquery-1.11.3.min.js"></script>
+</html>

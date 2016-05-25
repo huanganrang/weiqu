@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="rml.dao.BBSCommentMapper" >
+    <resultMap id="BaseResultMap" type="rml.model.BBSComment" >
+        <id column="id" property="id"  />
+        <result column="content" property="content"  />
+        <result column="user_id" property="userId"  />
+        <result column="bbs_id" property="bbsId"  />
+        <result column="imgs" property="imgs"  />
+        <result column="create_time" property="createTime"  />
+        <result column="user_name" property="userName"  />
+
+    </resultMap>
+    <sql id="Base_Column_List" >
+        id,content,user_id,bbs_id,create_time,token,imgs,user_name,user_id
+    </sql>
+
+
+    <select id="getBbsComments" resultMap="BaseResultMap" parameterType="rml.model.BBSComment" >
+        select
+        <include refid="Base_Column_List" />
+        from tb_bbs_comment b
+        where bbs_id = #{bbsId}
+        order by create_time desc
+        limit #{startSize},#{pageSize}
+    </select>
+
+
+
+    <select id="getBbsCommentsTotal" resultMap="BaseResultMap" parameterType="rml.model.BBSComment" >
+        select
+        <include refid="Base_Column_List" />
+        from tb_bbs_comment b
+        where bbs_id = #{bbsId}
+    </select>
+
+
+    <update id="updateCommunityBlogs"  parameterType="rml.model.BBSComment" >
+        update tb_community_bbs b
+        set link = #{link}
+        where token = #{token}
+    </update>
+
+
+    <select id="getCommunityBbs" resultMap="BaseResultMap" parameterType="java.lang.String" >
+        select
+        <include refid="Base_Column_List" />
+        from tb_bbs_comment b
+        where token = #{token}
+    </select>
+
+    <select id="getCommentByToken" resultMap="BaseResultMap" parameterType="java.lang.String" >
+        select
+        <include refid="Base_Column_List" />
+        from tb_bbs_comment b
+        where token = #{token}
+    </select>
+
+    <select id="getLessonByCommunity"  resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+        select
+        <include refid="Base_Column_List" />
+        from tb_lesson b
+        where community_id = #{id}
+    </select>
+
+
+    <insert id="createComment" parameterType="rml.model.BBSComment" >
+        insert into tb_bbs_comment(id,
+        content,user_id,bbs_id,token,create_time,imgs,user_name)
+        values (#{id}, #{content},#{userId},#{bbsId},#{token},#{createTime},#{imgs},#{userName}
+        )
+    </insert>
+
+    <insert id="updateLesson" parameterType="rml.model.BBSComment" >
+        update tb_lesson set url = #{url} where token = #{token}
+    </insert>
+
+</mapper>

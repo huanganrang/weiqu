@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="rml.dao.CategoryMapper" >
+    <resultMap id="BaseResultMap" type="rml.model.ChannelCategory" >
+        <id column="id" property="id"  />
+        <result column="name" property="name"  />
+    </resultMap>
+
+
+    <sql id="Base_Column_List" >
+        id,name
+    </sql>
+
+
+    <select id="getChannelCategory" resultMap="BaseResultMap" parameterType="rml.model.ChannelCategory" >
+        select
+        <include refid="Base_Column_List" />
+        from tb_channel_category b
+    </select>
+
+
+    <insert id="updateChannel" parameterType="rml.model.Channel" >
+        update tb_channel set url = #{url} where token = #{token}
+    </insert>
+</mapper>

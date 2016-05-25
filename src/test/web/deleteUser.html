@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+</head>
+<body>
+<table>
+    <tr>
+        <td>房间token:</td>
+        <td><input type="text" id="houseToken" name="houseToken"/></td>
+    </tr>
+
+    <tr>
+        <td>用户token:</td>
+        <td><input type="text" id="userToken" name="userToken"/></td>
+        <td><input type="button" id="click" onclick="createChannel()" value="提交" /></td>
+    </tr>
+
+
+
+
+    <div id="result"></div>
+</table>
+<script type="application/javascript">
+    var local = "http://localhost:8080";
+    var remote = "http://139.196.34.76:8080";
+    function createChannel(){
+        var userToken = $("#userToken").val();
+        var houseToken =$("#houseToken").val();
+        jQuery.ajax({
+            type: "Delete",
+            url: remote+"/HouseUser/HouseUser?houseToken="+houseToken+"&userToken="+userToken,
+            contentType:'application/json;charset=UTF-8',
+            dataType:"json",
+            success:function (data, status, jqXHR) {
+                $("#result").html(JSON.stringify(data.returnObject));
+            },
+            error: ""
+        });
+    }
+</script>
+</body>
+<script src="../web/lib/jquery-1.11.3.min.js"></script>
+</html>

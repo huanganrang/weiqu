@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="rml.dao.HouseUserMapper" >
+    <resultMap id="BaseResultMap" type="rml.model.HouseUser" >
+        <id column="id" property="id"  />
+        <result column="user_id" property="userId"  />
+        <result column="house_id" property="houseId"  />
+        <result column="user_token" property="userToken"  />
+        <result column="user_icon" property="userIcon"  />
+        <result column="nick_name" property="nickName"  />
+        <result column="user_token" property="userToken"  />
+        <result column="uid" property="huanxin_uid"  />
+        <result column="icon" property="icon"  />
+    </resultMap>
+
+    <sql id="Base_Column_List" >
+      id,user_id,house_id,identification
+    </sql>
+
+
+    <select id="getUsers" resultMap="BaseResultMap" parameterType="rml.model.HouseUser" >
+        select
+        b.huanxin_uid,b.nick_name,b.icon,a.identification
+        from tb_house_user a,tb_user b
+        where house_id = #{houseId}
+        and a.user_id = b.id
+        and a.status = 1
+    </select>
+
+    <select id="getHouseUser" resultMap="BaseResultMap" parameterType="rml.model.HouseUser" >
+        select
+        <include refid="Base_Column_List" />
+        from tb_house_user b
+        where user_id = #{userId}
+        and house_id = #{houseId}
+        and status = 1
+    </select>
+
+
+    <insert id="insertUser" parameterType="rml.model.HouseUser" >
+        insert into tb_house_user(id,user_id,
+        house_id,identification,status)
+        values (#{id},#{userId},#{houseId},#{identification},1
+        )
+    </insert>
+
+
+
+    <update id="updateUser" parameterType="rml.model.HouseUser" >
+      update tb_house_user set identification=#{identification}
+      where user_id = #{userId} and house_id=#{houseId}
+    </update>
+
+
+
+
+    <insert id="deleteHouseUser" parameterType="rml.model.HouseUser" >
+        update tb_house_user set status = 2 where user_id = #{userId} and house_id = #{houseId}
+    </insert>
+
+
+    <select id="getHouseUsers" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+        select
+      distinct(user_id),b.nick_name,b.token as userToken,b.icon as user_icon,a.identification
+        from tb_house_user a,tb_user b
+        where a.user_id = b.id
+        and a.house_id = #{houseId}
+    </select>
+
+
+
+</mapper>

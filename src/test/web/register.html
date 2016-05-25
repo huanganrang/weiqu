@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+</head>
+<body>
+<table>
+    <tr>
+        <td>房间token:</td>
+        <td><input type="text" id="houseToken" name="houseToken"/></td>
+    </tr>
+
+    <tr>
+        <td>用户token:</td>
+        <td><input type="text" id="userToken" name="userToken"/></td>
+        <td><input type="button" id="click" onclick="createChannel()" value="提交" /></td>
+    </tr>
+
+
+
+    <div id="result"></div>
+</table>
+<script type="application/javascript">
+    var local = "http://localhost:8080";
+    var remote = "http://service.weiqu168.com:8080";
+    function createChannel(){
+        var houseToken = $("#houseToken").val();
+        var userToken = $("#userToken").val();
+        jQuery.ajax({
+            type: "POST",
+            url: remote+"/House/Register",
+            contentType:'application/json;charset=UTF-8',
+            data: JSON.stringify({"houseToken":houseToken,"userToken":userToken}),
+            dataType:"json",
+            success:function (data, status, jqXHR) {
+                $("#result").html(JSON.stringify(data.returnObject));
+            },
+            error: ""
+        });
+    }
+</script>
+</body>
+<script src="../web/lib/jquery-1.11.3.min.js"></script>
+</html>

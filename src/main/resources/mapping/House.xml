@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="rml.dao.HouseMapper" >
+    <resultMap id="BaseResultMap" type="rml.model.House" >
+        <id column="id" property="id"  />
+        <result column="title" property="title"  />
+        <result column="password" property="password"  />
+        <result column="token" property="token"  />
+        <result column="channel_id" property="channelId"  />
+        <result column="admin_nick_name" property="adminNickName"  />
+        <result column="user_token" property="adminToken"  />
+        <result column="room_id" property="huanxinRoomId"  />
+        <result column="ldesc" property="desc"  />
+        <result column="lesson_desc" property="lessonDesc"  />
+        <result column="online_user_count" property="onlineUserCount"  />
+    </resultMap>
+    <sql id="Base_Column_List" >
+        id, title,password,start_time,end_time,token,url,channel_id,room_id,online_user_count,ldesc,lesson_desc,room_id
+    </sql>
+
+    <select id="getUserHouse" resultMap="BaseResultMap" parameterType="rml.model.House" >
+        select
+        <include refid="Base_Column_List" />
+        from tb_house b
+        where user_id = #{userId}
+        and channel_id = #{channelId}
+    </select>
+
+    <select id="getHouse" resultMap="BaseResultMap" parameterType="rml.model.House" >
+        select
+        <include refid="Base_Column_List" />
+        from tb_house b
+        where token = #{token}
+    </select>
+
+    <select id="getHouseById" resultMap="BaseResultMap" parameterType="rml.model.House" >
+        select
+        <include refid="Base_Column_List" />
+        from tb_house b
+        where id = #{id}
+    </select>
+
+    <insert id="createHouse" parameterType="rml.model.House" >
+        insert into tb_house(title, password
+        ,token,user_id,room_id,ldesc,lesson_desc,channel_id)
+        values (#{title}, #{password},#{token},#{userId},#{huanxinRoomId},#{desc},#{lessonDesc},#{channelId}
+        )
+    </insert>
+
+    <insert id="updateHouse" parameterType="rml.model.House" >
+        update tb_house set title = #{title},password = #{password}, token = #{token}, ldesc = #{desc},lesson_desc=#{lessonDesc} where id = #{id}
+    </insert>
+
+    <update id="updateHouseUser" parameterType="rml.model.House" >
+        update tb_house b set online_user_count = b.online_user_count+1 where token = #{token}
+    </update>
+
+    <update id="minusHouseUser" parameterType="rml.model.House" >
+        update tb_house b set online_user_count = b.online_user_count-1 where token = #{token}
+    </update>
+
+
+    <select id="getChannelHouses" resultMap="BaseResultMap" parameterType="rml.model.House" >
+        select
+        a.id,a.title,a.password,a.start_time,a.end_time,a.token,a.url,a.channel_id,b.nick_name as admin_nick_name,b.token as user_token,room_id,a.online_user_count
+        from tb_house a left join tb_user b on a.user_id = b.id where a.channel_id = #{channelId}
+
+    </select>
+
+    <select id="getHouseDetail" resultMap="BaseResultMap" parameterType="java.lang.String" >
+        select
+        a.id,a.title,a.password,a.start_time,a.end_time,a.token,a.url,a.channel_id,b.nick_name as admin_nick_name,a.lesson_desc as lesson_desc,b.token as user_token,a.room_id as room_id
+        from tb_house a ,tb_user b where a.user_id = b.id and a.token = #{token}
+    </select>
+</mapper>

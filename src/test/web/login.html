@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+</head>
+<body>
+<table>
+    <tr>
+        <td>手机号:</td>
+        <td><input type="text" id="mobile" name="mobile"/></td>
+    </tr>
+
+    <tr>
+        <td>密码:</td>
+        <td><input type="text" id="password" name="password"/></td>
+        <td><input type="button" onclick="login()" value="登录"> </td>
+    </tr>
+
+    <tr>
+        <td>用户token:</td>
+        <td><input type="text" id="token" name="token"/></td>
+    </tr>
+
+</table>
+<script type="application/javascript">
+    var local = "http://localhost:8080";
+    var remote = "http://139.196.34.76";
+
+    function login(){
+        var mobile = $("#mobile").val();
+        var password = $("#password").val();
+        jQuery.ajax({
+            type: "GET",
+            url: local+"/User/User",
+            contentType:'application/json;charset=UTF-8',
+            data: {"mobile":mobile,"password":password},
+            dataType:"json",
+            success:function (data, status, jqXHR) {
+                $("#token").val(data.returnValue);
+            },
+            error: ""
+        });
+    }
+</script>
+</body>
+<script src="../web/lib/jquery-1.11.3.min.js"></script>
+</html>

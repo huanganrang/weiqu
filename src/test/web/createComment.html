@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+</head>
+<body>
+<table>
+    <tr>
+        <td>课程token:</td>
+        <td><input type="text" id="lessonToken" name="lessonToken"/></td>
+    </tr>
+
+    <tr>
+        <td>评论人token:</td>
+        <td><input type="text" id="userToken" name="userToken"/></td>
+    </tr>
+
+    <tr>
+        <td>标题:</td>
+        <td><input type="text" id="title" name="title" value="test_icon_route"/></td>
+    </tr>
+
+    <tr>
+        <td>内容:</td>
+        <td><input type="text" id="content" name="content" /></td>
+        <td><input type="button" id="click" onclick="createChannel()" value="提交" /></td>
+    </tr>
+
+
+    <div id="result"></div>
+</table>
+<script type="application/javascript">
+    var local = "http://localhost:8080";
+    var remote = "http://139.196.34.76";
+    function createChannel(){
+        var lessonToken = $("#lessonToken").val();
+        var userToken = $("#userToken").val();
+        var title =$("#title").val();
+        var content =$("#content").val();
+        jQuery.ajax({
+            type: "POST",
+            url: remote+"/Lesson/Comment",
+            contentType:'application/json;charset=UTF-8',
+            data: JSON.stringify({"lessonToken":lessonToken,"userToken":userToken,"title":title,"content":"content"}),
+            dataType:"json",
+            success:function (data, status, jqXHR) {
+                $("#result").html(JSON.stringify(data.returnObject));
+            },
+            error: ""
+        });
+    }
+</script>
+</body>
+<script src="../web/lib/jquery-1.11.3.min.js"></script>
+</html>

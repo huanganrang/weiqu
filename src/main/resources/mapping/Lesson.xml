@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="rml.dao.LessonMapper" >
+    <resultMap id="BaseResultMap" type="rml.model.Lesson" >
+        <id column="id" property="id"  />
+        <result column="l_desc" property="ldesc"  />
+        <result column="community_id" property="communityId"  />
+        <result column="token" property="token"  />
+        <result column="icon" property="icon"  />
+        <result column="type" property="type"  />
+        <result column="title" property="title"  />
+        <result column="user_id" property="userId"  />
+        <result column="community_id" property="communityId"  />
+        <result column="up_num" property="upNum"  />
+        <result column="comment_times" property="commentTimes"  />
+        <result column="create_time" property="createTime"  />
+    </resultMap>
+    <sql id="Base_Column_List" >
+        id,l_desc,token,icon,user_id,Community_id,file,create_time,up_num,comment_times,type,title
+    </sql>
+
+
+    <select id="getLesson" resultMap="BaseResultMap" parameterType="rml.model.Lesson" >
+        select
+        <include refid="Base_Column_List" />
+        from tb_lesson b
+        where token = #{token}
+        and status = 1
+    </select>
+
+
+    <select id="getLessonById" resultMap="BaseResultMap" parameterType="rml.model.Lesson" >
+        select
+        <include refid="Base_Column_List" />
+        from tb_lesson b
+        where id = #{id}
+        and status = 1
+    </select>
+
+    <select id="getLessonByToken" resultMap="BaseResultMap" parameterType="java.lang.String" >
+        select
+        <include refid="Base_Column_List" />
+        from tb_lesson b
+        where token = #{token}
+        and status = 1
+    </select>
+
+    <select id="getLessonByCommunity"  resultMap="BaseResultMap" parameterType="rml.model.Lesson" >
+        select
+        <include refid="Base_Column_List" />
+        from tb_lesson b
+        where community_id = #{communityId}
+        and status = 1
+        order by create_time desc
+        limit #{startSize},#{pageSize}
+    </select>
+
+    <select id="getLessons"  resultMap="BaseResultMap" parameterType="rml.model.Lesson" >
+        select
+        <include refid="Base_Column_List" />
+        from tb_lesson b
+        where community_id = #{communityId}
+        and user_id=#{userId}
+        and status = 1
+        order by create_time desc
+    </select>
+
+    <select id="getUserLesson"  resultMap="BaseResultMap" parameterType="rml.model.Lesson" >
+        select
+        <include refid="Base_Column_List" />
+        from tb_lesson b
+        where user_id = #{userId}
+        and status = 1
+        order by create_time desc
+        limit #{startSize},#{pageSize}
+    </select>
+
+    <select id="getUserLessonTotal"  resultMap="BaseResultMap" parameterType="rml.model.Lesson" >
+        select
+        <include refid="Base_Column_List" />
+        from tb_lesson b
+        where user_id = #{userId}
+        and status = 1
+    </select>
+
+
+    <select id="getLessonByCommunityTotal"  resultMap="BaseResultMap" parameterType="rml.model.Lesson" >
+        select
+        <include refid="Base_Column_List" />
+        from tb_lesson b
+        where community_id = #{communityId}
+        and status = 1
+    </select>
+
+    <insert id="createLesson" parameterType="rml.model.Lesson" >
+        insert into tb_lesson(l_desc,token,icon,user_id,Community_id,file,create_time,type,title,up_num,comment_times,status)
+        values (#{ldesc},#{token},#{icon},#{userId},#{communityId},#{file},#{createTime},#{type},#{title},0,0,1
+        )
+    </insert>
+
+    <insert id="updateLesson" parameterType="rml.model.Lesson" >
+        update tb_lesson set url = #{url} where token = #{token}
+    </insert>
+
+
+    <insert id="deleteLesson" parameterType="rml.model.Lesson" >
+        update tb_lesson set status = 0 where token = #{token}
+    </insert>
+
+    <insert id="updateLessonUpNum" parameterType="java.lang.String" >
+        update tb_lesson set up_num = up_num+1 where id = #{id}
+    </insert>
+
+    <insert id="updateLessonComment" parameterType="java.lang.String" >
+        update tb_lesson set comment_times = comment_times+1 where id = #{id}
+    </insert>
+
+    <insert id="deleteLessonComment" parameterType="java.lang.String" >
+        update tb_lesson set comment_times = comment_times-1 where id = #{id}
+    </insert>
+
+
+    <insert id="deleteLessonUpNum" parameterType="java.lang.String" >
+        update tb_lesson set up_num = up_num-1 where id = #{id}
+    </insert>
+</mapper>
