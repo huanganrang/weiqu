@@ -15,7 +15,14 @@ public class ReturnJson {
     private Object returnObject;
 
     private int type;
+    public ReturnJson(){
 
+    }
+    public ReturnJson(int errorCode, String returnMessage, int serverStatus) {
+        this.errorCode = errorCode;
+        this.returnMessage = returnMessage;
+        this.serverStatus = serverStatus;
+    }
     public int getType() {
         return type;
     }
