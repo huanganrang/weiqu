@@ -1,11 +1,13 @@
 package rml.controller;
 
+import rml.comm.Log;
 import rml.util.ReturnJson;
 
 /**
  * Created by john on 16/5/26.
  */
-public class BaseController implements Action {
+public class BaseController extends Log implements Action {
+
     protected ReturnJson newFailure() {
         ReturnJson returnJson = new ReturnJson();
         returnJson.setServerStatus(1);

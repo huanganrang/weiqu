@@ -25,7 +25,7 @@ import java.util.List;
 
 @Controller
 @RequestMapping("/Channel")
-public class ChannelController {
+public class ChannelController extends BaseController {
 
     static String constr =  "10.174.139.99" ;
 
