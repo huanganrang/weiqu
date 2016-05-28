@@ -9,7 +9,7 @@ import java.util.List;
  * Created by Administrator on 2015/9/25.
  */
 public interface ChannelServiceI {
-    public Channel createChannel(Channel channel);
+    Channel createChannel(Channel channel);
 
     int updateChannelUser(int id);
 
@@ -26,4 +26,6 @@ public interface ChannelServiceI {
     int deleteUser(Integer id);
 
     List<Channel> getUserChannelTotal(Channel channel);
+
+    int updateChannel(Channel channel);
 }

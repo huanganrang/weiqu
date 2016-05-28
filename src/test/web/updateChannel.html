@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+</head>
+<body>
+<table>
+    <tr>
+        <td>频道名称:</td>
+        <td><input type="text" id="name" name="name"/></td>
+    </tr>
+
+    <tr>
+        <td>描述:</td>
+        <td><input type="text" id="shortDesc" name="shortDesc"/></td>
+    </tr>
+
+    <tr>
+        <td>图标路径:</td>
+        <td><input type="text" id="channelIcon" name="channelIcon"/></td>
+        <td>这个暂时先填一个字符串就可以了,等文件上传接口</td>
+    </tr>
+
+
+    <tr>
+        <td>用户token:</td>
+        <td><input type="text" id="userToken" name="userToken"/></td>
+        <td>这个暂时先填一个字符串就可以了,等文件上传接口</td>
+    </tr>
+    <tr>
+        <td>频道token</td>token:</td>
+        <td><input type="text" id="token" name="token"/></td>
+        <td>这个暂时先填一个字符串就可以了,等文件上传接口</td>
+    </tr>
+
+    <tr>
+        <td>频道分类id:</td>
+        <td><input type="text" id="categoryId" name="categoryId" /></td>
+        <td><input type="button" id="click" onclick="updateChannel()" value="提交" /></td>
+    </tr>
+
+
+    <div id="result"></div>
+</table>
+<script type="application/javascript">
+    var local = "http://localhost:8080";
+    var remote = "http://139.196.34.76:8080";
+    function updateChannel(){
+        var shortDesc = $("#shortDesc").val();
+        var name = $("#name").val();
+        var categoryId =$("#categoryId").val();
+        var channelIcon =$("#channelIcon").val();
+        var userToken =$("#userToken").val();
+        jQuery.ajax({
+            type: "POST",
+            url: local+"/Channel/Channel/Update",
+            contentType:'application/json;charset=UTF-8',
+            data: JSON.stringify({"shortDesc":shortDesc,"name":name,"categoryId":categoryId,"channelIcon":channelIcon,"userToken":userToken,"token":$("#token").val()}),
+            dataType:"json",
+            success:function (data, status, jqXHR) {
+                $("#result").html(JSON.stringify(data.returnObject));
+            },
+            error: ""
+        });
+    }
+</script>
+</body>
+<script src="../web/lib/jquery-1.11.3.min.js"></script>
+</html>

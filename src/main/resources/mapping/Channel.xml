@@ -68,6 +68,15 @@
         values (#{id},#{name}, #{shortDesc},#{categoryId},#{channelIcon},#{token},#{displayIconUrl},#{userId},1
         )
     </insert>
+    <update id="updateChannelMode" parameterType="rml.model.Channel" >
+        update tb_channel
+          set name = #{name},
+          short_desc = #{shortDesc},
+          category_id = #{categoryId},
+          channel_icon = #{channelIcon},
+          display_icon_url = #{displayIconUrl}
+        where token = #{token}
+    </update>
 
     <insert id="updateChannel" parameterType="rml.model.Channel" >
        update tb_channel set url = #{url} where token = #{token}

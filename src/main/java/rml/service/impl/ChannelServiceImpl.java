@@ -70,4 +70,9 @@ public class ChannelServiceImpl implements ChannelServiceI {
         return channelMapper.getUserChannelTotal(channel);
     }
 
+    @Override
+    public int updateChannel(Channel channel) {
+        return channelMapper.updateChannel(channel);
+    }
+
 }

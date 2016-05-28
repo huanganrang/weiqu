@@ -15,6 +15,8 @@ public interface ChannelMapper {
 
     int updateChannel(Channel channel);
 
+    int updateChannelMode(Channel channel);
+
     List<Channel> getUserChannel(Channel channel);
 
     List<Channel> getUserChannelTotal(Channel channel);

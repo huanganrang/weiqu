@@ -83,6 +83,47 @@ public class ChannelController extends BaseController {
         return returnJson;
     }
 
+    @RequestMapping(value="/Channel/Update",method = RequestMethod.POST)
+    @ResponseBody
+    public Object updateChannel(@RequestBody Channel channel){
+        ReturnJson returnJson = new ReturnJson();
+        returnJson.setErrorCode(8000);
+        returnJson.setReturnMessage("调用成功" + channel.toString());
+        returnJson.setServerStatus(0);
+        if(StringUtils.isEmpty(channel.getToken())||StringUtils.isEmpty(channel.getName())||StringUtils.isEmpty(channel.getChannelIcon())||StringUtils.isEmpty(channel.getShortDesc())||channel.getCategoryId()==0||StringUtils.isEmpty(channel.getUserToken())){
+            System.err.println(channel.toString());
+            returnJson.setErrorCode(8002);
+            returnJson.setReturnMessage("传入参数为空" + channel.toString());
+            returnJson.setServerStatus(1);
+            return returnJson;
+        }
+        channel.setDisplayIconUrl(channel.getChannelIcon());
+        User user = null;
+        try{
+            user = userService.selectByToken(channel.getUserToken());
+        }catch (Exception ex){
+            ex.printStackTrace();
+            returnJson.setErrorCode(8001);
+            returnJson.setReturnMessage("服务器异常");
+            returnJson.setServerStatus(2);
+        }
+        if(user==null){
+            returnJson.setErrorCode(8003);
+            returnJson.setReturnMessage("userToken不存在"+channel);
+            returnJson.setServerStatus(1);
+
+        }
+        try{
+           channelService.updateChannel(channel);
+        } catch (Exception ex){
+            ex.printStackTrace();
+            returnJson.setErrorCode(8001);
+            returnJson.setReturnMessage("服务器异常");
+            returnJson.setServerStatus(2);
+        }
+        return returnJson;
+    }
+
 
     @RequestMapping(value="/Page",method = RequestMethod.GET)
     @ResponseBody
