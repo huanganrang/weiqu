@@ -115,6 +115,8 @@ public class ChannelController extends BaseController {
         }
         try{
            channelService.updateChannel(channel);
+            channel=channelService.getChannel(channel.getToken());
+            returnJson.setReturnObject(channel);
         } catch (Exception ex){
             ex.printStackTrace();
             returnJson.setErrorCode(8001);

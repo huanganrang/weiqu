@@ -265,4 +265,28 @@ public class HouseController {
         returnJson.setReturnObject(house1);
         return returnJson;
     }
+     @RequestMapping(value="/Houses/getHouseUsers",method = RequestMethod.GET)
+    @ResponseBody
+    public ReturnJson getHouseUsers(Integer houseId){
+         ReturnJson returnJson = new ReturnJson();
+         returnJson.setErrorCode(41000);
+         returnJson.setServerStatus(0);
+         if(houseId==null||houseId<=0){
+             returnJson.setErrorCode(41002);
+             returnJson.setReturnMessage("传入参数为" + houseId);
+             returnJson.setServerStatus(1);
+             return returnJson;
+         }
+         try {
+             List<HouseUser> users = houseUserService.getHouseUsers(houseId);
+             returnJson.setReturnObject(users);
+         }catch(Exception ex){
+             ex.printStackTrace();
+             returnJson.setErrorCode(41001);
+             returnJson.setReturnMessage("服务器异常");
+             returnJson.setServerStatus(2);
+         }
+
+         return returnJson;
+     }
 }
