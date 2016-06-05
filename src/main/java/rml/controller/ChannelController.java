@@ -27,26 +27,26 @@ import java.util.List;
 @RequestMapping("/Channel")
 public class ChannelController extends BaseController {
 
-    static String constr =  "10.174.139.99" ;
+    static String constr = "10.174.139.99";
 
     private String destUrl = "file.weiqu168.com/";
 
-    Jedis jedis = new Jedis(constr) ;
+    Jedis jedis = new Jedis(constr);
 
     @Autowired
     UserServiceI userService;
 
     @Autowired
-    ChannelServiceI  channelService;
+    ChannelServiceI channelService;
 
-    @RequestMapping(value="/Channel",method = RequestMethod.POST)
+    @RequestMapping(value = "/Channel", method = RequestMethod.POST)
     @ResponseBody
-    public Object createChannel(@RequestBody Channel channel){
+    public Object createChannel(@RequestBody Channel channel) {
         ReturnJson returnJson = new ReturnJson();
         returnJson.setErrorCode(8000);
         returnJson.setReturnMessage("调用成功" + channel.toString());
         returnJson.setServerStatus(0);
-        if(StringUtils.isEmpty(channel.getName())||StringUtils.isEmpty(channel.getChannelIcon())||StringUtils.isEmpty(channel.getShortDesc())||channel.getCategoryId()==0||StringUtils.isEmpty(channel.getUserToken())){
+        if (StringUtils.isEmpty(channel.getName()) || StringUtils.isEmpty(channel.getChannelIcon()) || StringUtils.isEmpty(channel.getShortDesc()) || channel.getCategoryId() == 0 || StringUtils.isEmpty(channel.getUserToken())) {
             System.err.println(channel.toString());
             returnJson.setErrorCode(8002);
             returnJson.setReturnMessage("传入参数为空" + channel.toString());
@@ -55,25 +55,25 @@ public class ChannelController extends BaseController {
         }
         channel.setDisplayIconUrl(channel.getChannelIcon());
         User user = null;
-        try{
+        try {
             user = userService.selectByToken(channel.getUserToken());
-        }catch (Exception ex){
+        } catch (Exception ex) {
             ex.printStackTrace();
             returnJson.setErrorCode(8001);
             returnJson.setReturnMessage("服务器异常");
             returnJson.setServerStatus(2);
         }
-        if(user==null){
+        if (user == null) {
             returnJson.setErrorCode(8003);
-            returnJson.setReturnMessage("userToken不存在"+channel);
+            returnJson.setReturnMessage("userToken不存在" + channel);
             returnJson.setServerStatus(1);
 
         }
         Channel channel1 = null;
-        try{
+        try {
             channel.setUserId(user.getId());
             channel1 = channelService.createChannel(channel);
-        } catch (Exception ex){
+        } catch (Exception ex) {
             ex.printStackTrace();
             returnJson.setErrorCode(8001);
             returnJson.setReturnMessage("服务器异常");
@@ -83,14 +83,14 @@ public class ChannelController extends BaseController {
         return returnJson;
     }
 
-    @RequestMapping(value="/Channel/Update",method = RequestMethod.POST)
+    @RequestMapping(value = "/Channel/Update", method = RequestMethod.POST)
     @ResponseBody
-    public Object updateChannel(@RequestBody Channel channel){
+    public Object updateChannel(@RequestBody Channel channel) {
         ReturnJson returnJson = new ReturnJson();
         returnJson.setErrorCode(8000);
         returnJson.setReturnMessage("调用成功" + channel.toString());
         returnJson.setServerStatus(0);
-        if(StringUtils.isEmpty(channel.getToken())||StringUtils.isEmpty(channel.getName())||StringUtils.isEmpty(channel.getChannelIcon())||StringUtils.isEmpty(channel.getShortDesc())||channel.getCategoryId()==0||StringUtils.isEmpty(channel.getUserToken())){
+        if (StringUtils.isEmpty(channel.getToken()) || StringUtils.isEmpty(channel.getName()) || StringUtils.isEmpty(channel.getChannelIcon()) || StringUtils.isEmpty(channel.getShortDesc()) || channel.getCategoryId() == 0 || StringUtils.isEmpty(channel.getUserToken())) {
             System.err.println(channel.toString());
             returnJson.setErrorCode(8002);
             returnJson.setReturnMessage("传入参数为空" + channel.toString());
@@ -99,25 +99,25 @@ public class ChannelController extends BaseController {
         }
         channel.setDisplayIconUrl(channel.getChannelIcon());
         User user = null;
-        try{
+        try {
             user = userService.selectByToken(channel.getUserToken());
-        }catch (Exception ex){
+        } catch (Exception ex) {
             ex.printStackTrace();
             returnJson.setErrorCode(8001);
             returnJson.setReturnMessage("服务器异常");
             returnJson.setServerStatus(2);
         }
-        if(user==null){
+        if (user == null) {
             returnJson.setErrorCode(8003);
-            returnJson.setReturnMessage("userToken不存在"+channel);
+            returnJson.setReturnMessage("userToken不存在" + channel);
             returnJson.setServerStatus(1);
 
         }
-        try{
-           channelService.updateChannel(channel);
-            channel=channelService.getChannel(channel.getToken());
+        try {
+            channelService.updateChannel(channel);
+            channel = channelService.getChannel(channel.getToken());
             returnJson.setReturnObject(channel);
-        } catch (Exception ex){
+        } catch (Exception ex) {
             ex.printStackTrace();
             returnJson.setErrorCode(8001);
             returnJson.setReturnMessage("服务器异常");
@@ -127,23 +127,23 @@ public class ChannelController extends BaseController {
     }
 
 
-    @RequestMapping(value="/Page",method = RequestMethod.GET)
+    @RequestMapping(value = "/Page", method = RequestMethod.GET)
     @ResponseBody
-    public Object getPage(Channel channel){
+    public Object getPage(Channel channel) {
         ReturnJson returnJson = new ReturnJson();
         returnJson.setErrorCode(37000);
         returnJson.setReturnMessage("调用成功");
         returnJson.setServerStatus(0);
-        if(channel.getPageNo()==0){
+        if (channel.getPageNo() == 0) {
             returnJson.setErrorCode(37002);
             returnJson.setReturnMessage("服务器异常");
             returnJson.setServerStatus(1);
             return returnJson;
         }
-       List< Channel> channels = null;
-        try{
+        List<Channel> channels = null;
+        try {
             channels = channelService.getChannelPage(channel);
-        } catch (Exception ex){
+        } catch (Exception ex) {
             ex.printStackTrace();
             returnJson.setErrorCode(37001);
             returnJson.setReturnMessage("服务器异常");
@@ -155,18 +155,18 @@ public class ChannelController extends BaseController {
         return returnJson;
     }
 
-    @RequestMapping(value="/Houses",method = RequestMethod.GET)
+    @RequestMapping(value = "/Houses", method = RequestMethod.GET)
     @ResponseBody
-    public Object getHouses(Channel channel){
+    public Object getHouses(Channel channel) {
         ReturnJson returnJson = new ReturnJson();
         returnJson.setErrorCode(37000);
         returnJson.setReturnMessage("调用成功");
         returnJson.setServerStatus(0);
 
-        List< Channel> channels = null;
-        try{
+        List<Channel> channels = null;
+        try {
             channels = channelService.getChannelPage(channel);
-        } catch (Exception ex){
+        } catch (Exception ex) {
             ex.printStackTrace();
             returnJson.setErrorCode(37001);
             returnJson.setReturnMessage("服务器异常");
@@ -177,13 +177,13 @@ public class ChannelController extends BaseController {
         return returnJson;
     }
 
-    public static void main(String[]args){
+    public static void main(String[] args) {
 
-        String constr = "139.196.12.99" ;
+        String constr = "139.196.12.99";
 
-        Jedis jedis = new Jedis(constr) ;
+        Jedis jedis = new Jedis(constr);
 
-        rml.model.File file = (File)SerializeUtil.unserialize(jedis.get(SerializeUtil.serialize("84a5950d-8fb6-4fe6-be77-041f04568cb1")));
+        rml.model.File file = (File) SerializeUtil.unserialize(jedis.get(SerializeUtil.serialize("84a5950d-8fb6-4fe6-be77-041f04568cb1")));
         System.err.println(file.getGroupName());
         System.err.println(file.getRemoteFileName());
     }
