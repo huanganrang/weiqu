@@ -49,7 +49,7 @@ public class HouseController {
     private HouseUserServiceI houseUserService;
 
 
-    @RequestMapping(value="/House",method = RequestMethod.POST)
+    @RequestMapping(value="/Create",method = RequestMethod.POST)
     @ResponseBody
     public Object createHouse(@RequestBody House house) {
         ReturnJson returnJson = new ReturnJson();
