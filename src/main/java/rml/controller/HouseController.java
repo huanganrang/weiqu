@@ -265,7 +265,7 @@ public class HouseController {
         returnJson.setReturnObject(house1);
         return returnJson;
     }
-     @RequestMapping(value="/Houses/getHouseUsers",method = RequestMethod.GET)
+     @RequestMapping(value="/getHouseUsers",method = RequestMethod.GET)
     @ResponseBody
     public ReturnJson getHouseUsers(Integer houseId){
          ReturnJson returnJson = new ReturnJson();
