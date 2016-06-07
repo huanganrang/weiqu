@@ -224,7 +224,7 @@ public class HouseController {
     }
 
 
-    @RequestMapping(value="/House/Update",method = RequestMethod.POST)
+    @RequestMapping(value="/Update",method = RequestMethod.POST)
     @ResponseBody
     public Object updateHouse(@RequestBody House house) {
         ReturnJson returnJson = new ReturnJson();
