@@ -72,7 +72,7 @@ public class ChannelServiceImpl implements ChannelServiceI {
 
     @Override
     public int updateChannel(Channel channel) {
-        return channelMapper.updateChannel(channel);
+        return channelMapper.updateChannelMode(channel);
     }
 
 }
