@@ -49,7 +49,7 @@
     </insert>
 
     <insert id="updateHouse" parameterType="rml.model.House" >
-        update tb_house set title = #{title},password = #{password}, token = #{token}, ldesc = #{desc},lesson_desc=#{lessonDesc} where id = #{id}
+        update tb_house set title = #{title},password = #{password},is_pwd_null=#{isPasswordNull} token = #{token}, ldesc = #{desc},lesson_desc=#{lessonDesc} where id = #{id}
     </insert>
 
     <update id="updateHouseUser" parameterType="rml.model.House" >
