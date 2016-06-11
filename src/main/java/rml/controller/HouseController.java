@@ -265,7 +265,7 @@ public class HouseController {
         returnJson.setReturnObject(house1);
         return returnJson;
     }
-     @RequestMapping(value="/getHouseUsers",method = RequestMethod.GET)
+    @RequestMapping(value="/getHouseUsers",method = RequestMethod.GET)
     @ResponseBody
     public ReturnJson getHouseUsers(Integer houseId){
          ReturnJson returnJson = new ReturnJson();
@@ -289,4 +289,35 @@ public class HouseController {
 
          return returnJson;
      }
+
+    @RequestMapping(value="/checkHousePwd",method = RequestMethod.GET)
+    @ResponseBody
+    public ReturnJson checkHousePwd(String houseToken,String pwd){
+        ReturnJson returnJson = new ReturnJson();
+        returnJson.setErrorCode(7000);
+        returnJson.setReturnMessage("调用成功" + houseToken);
+        returnJson.setServerStatus(0);
+        if(StringUtils.isEmpty(houseToken)){
+            returnJson.setErrorCode(7002);
+            returnJson.setReturnMessage("传入参数为空");
+            returnJson.setServerStatus(1);
+            return returnJson;
+        }
+        try {
+            House house=houseService.getHouse(houseToken);
+            String enc= MD5.GetMD5Code(pwd);
+            if(!(house.getPassword()!=null&&house.getPassword().equals(enc))){
+                returnJson.setErrorCode(7003);
+                returnJson.setReturnMessage("密码错误！");
+                returnJson.setServerStatus(1);
+                return returnJson;
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+            returnJson.setErrorCode(7001);
+            returnJson.setReturnMessage("服务器异常");
+            returnJson.setServerStatus(2);
+        }
+        return returnJson;
+    }
 }
