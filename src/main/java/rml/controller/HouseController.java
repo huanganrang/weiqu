@@ -290,7 +290,7 @@ public class HouseController {
          return returnJson;
      }
 
-    @RequestMapping(value="/checkHousePwd",method = RequestMethod.GET)
+    @RequestMapping(value="/checkHousePwd",method = RequestMethod.POST)
     @ResponseBody
     public ReturnJson checkHousePwd(String houseToken,String pwd){
         ReturnJson returnJson = new ReturnJson();
