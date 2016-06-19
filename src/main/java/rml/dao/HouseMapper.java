@@ -27,4 +27,6 @@ public interface HouseMapper {
     House getHouseDetail(String token);
 
     List<House> getUserHouse(House House);
+    int deleteHouseRole(House house);
+    int insertHouseRole(House house);
 }

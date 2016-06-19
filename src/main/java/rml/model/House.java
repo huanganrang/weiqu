@@ -1,5 +1,7 @@
 package rml.model;
 
+import com.google.api.client.util.Lists;
+
 import java.util.Date;
 import java.util.List;
 
@@ -43,6 +45,7 @@ public class House {
 
     private int isScheduleNull;
 
+    private List<Role> roleList= Lists.newArrayList();
     public int getIsScheduleNull() {
         return isScheduleNull;
     }
@@ -160,9 +163,13 @@ public class House {
         return this;
     }
 
+    public List<Role> getRoleList() {
+        return roleList;
+    }
 
-
-
+    public void setRoleList(List<Role> roleList) {
+        this.roleList = roleList;
+    }
 
     public String getToken() {
         return token;

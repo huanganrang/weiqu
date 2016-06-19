@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="rml.dao.LessonMapper" >
+       <resultMap id="BaseResultMap" type="rml.model.Resource" >
+               <id column="id" property="id"  />
+               <result column="icon" property="icon"  />
+               <result column="name" property="name"  />
+               <result column="remark" property="remark"  />
+               <result column="seq" property="seq"  />
+               <result column="url" property="url"  />
+               <result column="pid" property="pid"  />
+               <result column="pids" property="pids"/>
+               <result column="tresourcetype_id" property="tResourceTypeId"  />
+       </resultMap>
+       <sql id="Base_Column_List">
+              id,icon,name,remark,seq,url,pid as parent.id ,pids,tresourcetype_id
+       </sql>
+       <select id="findResourcesByHouseToken" resultMap="BaseResultMap"  >
+              select
+              <include refid="Base_Column_List" />
+              from tb_resource a
+              left JOIN tb_resource b on b.id=a.pid
+              JOIN tb_role_resource rr on rr.tresource_id= a.id
+              JOIN tb_role r on r.id= rr.trole_id
+              JOIN  tb_house_role hr on hr.trole_id= r.id
+              JOIN  tb_house h on h.id= hr.house_id.
+              where h.token = #{token}
+       </select>
+       <insert id="insert" >
+          INSERT  INTO tb_resource(
+          id,
+          icon,
+          name,
+          remark,
+          seq,
+          url,
+          pid,
+          tresourcetype_id
+          )VALUES (
+          #{id},
+          #{icon},
+          #{name},
+          #{remark},
+          #{seq},
+          #{url},
+          #{parent.id},
+          #{tResourceTypeId}
+          )
+       </insert>
+       <update id="update">
+              UPDATE  tb_resource SET
+              icon=#{icon},
+              name=#{name},
+              remark=#{remark},
+              seq=#{seq},
+              url=#{url},
+              pid=#{parent.id},
+              tresource_id=#{tResourceTypeId}
+              WHERE
+              id=#{id}
+       </update>
+       <delete id="delete">
+              DELETE FROM tb_resource WHERE id=#{id} OR parent_ids LIKE CONCAT('%,', #{id}, ',%')
+       </delete>
+
+</mapper>

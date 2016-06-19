@@ -48,6 +48,8 @@ public class HouseController {
     @Autowired
     private HouseUserServiceI houseUserService;
 
+    @Autowired
+    private ResourceServiceI resourceService;
 
     @RequestMapping(value="/Create",method = RequestMethod.POST)
     @ResponseBody
@@ -312,6 +314,30 @@ public class HouseController {
                 returnJson.setServerStatus(1);
                 return returnJson;
             }
+        }catch (Exception e){
+            e.printStackTrace();
+            returnJson.setErrorCode(7001);
+            returnJson.setReturnMessage("服务器异常");
+            returnJson.setServerStatus(2);
+        }
+        return returnJson;
+    }
+    @RequestMapping(value = "getResources")
+    @ResponseBody
+    public ReturnJson getResources(String token){
+        ReturnJson returnJson = new ReturnJson();
+        returnJson.setErrorCode(7000);
+        returnJson.setReturnMessage("调用成功" + token);
+        returnJson.setServerStatus(0);
+        if(StringUtils.isEmpty(token)){
+            returnJson.setErrorCode(7002);
+            returnJson.setReturnMessage("传入参数为空");
+            returnJson.setServerStatus(1);
+            return returnJson;
+        }
+        try {
+            List<Resource> list=resourceService.findResourcesByHouseToken(token);
+            returnJson.setReturnObject(list);
         }catch (Exception e){
             e.printStackTrace();
             returnJson.setErrorCode(7001);

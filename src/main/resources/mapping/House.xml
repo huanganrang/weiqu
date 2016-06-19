@@ -73,4 +73,16 @@
         a.id,a.title,a.password,a.start_time,a.end_time,a.token,a.url,a.channel_id,b.nick_name as admin_nick_name,a.lesson_desc as lesson_desc,b.token as user_token,a.room_id as room_id
         from tb_house a ,tb_user b where a.user_id = b.id and a.token = #{token}
     </select>
+    <!-- 删除房间和角色关联表数据 -->
+    <delete id="deleteHouseRole">
+        DELETE FROM tb_house_role WHERE house_id = #{id}
+    </delete>
+
+    <!-- 插入房间和角色关联表数据 -->
+    <insert id="insertHouseRole">
+        INSERT INTO tb_house_role (house, trole_id)
+        <foreach collection="roleList" item="role" separator=" union all ">
+            SELECT #{id}, #{role.id}
+        </foreach>
+    </insert>
 </mapper>
