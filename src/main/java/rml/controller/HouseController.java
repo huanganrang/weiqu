@@ -322,7 +322,7 @@ public class HouseController {
         }
         return returnJson;
     }
-    @RequestMapping(value = "getResources")
+    @RequestMapping(value = "/getResources")
     @ResponseBody
     public ReturnJson getResources(String token){
         ReturnJson returnJson = new ReturnJson();
