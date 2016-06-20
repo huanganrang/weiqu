@@ -3,6 +3,7 @@ package rml.controller;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.JsonNodeFactory;
 import com.fasterxml.jackson.databind.node.ObjectNode;
+import com.google.api.client.util.Lists;
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -343,6 +344,34 @@ public class HouseController {
             returnJson.setErrorCode(7001);
             returnJson.setReturnMessage("服务器异常");
             returnJson.setServerStatus(2);
+        }
+        return returnJson;
+    }
+    @RequestMapping(value = "/changeRole")
+    public ReturnJson changeRole(String token,String roleIds){
+        ReturnJson returnJson=new ReturnJson();
+        returnJson.setErrorCode(7000);
+        returnJson.setReturnMessage("调用成功" + token);
+        returnJson.setServerStatus(0);
+        if(StringUtils.isEmpty(token)){
+            returnJson.setErrorCode(7002);
+            returnJson.setReturnMessage("传入参数为空");
+            returnJson.setServerStatus(1);
+            return returnJson;
+        }
+        List<Role> roleList= Lists.newArrayList();
+        if(StringUtils.isNotBlank(roleIds)){
+            String rIds[]=roleIds.split(",");
+            for (String rid:rIds){
+                roleList.add(new Role(rid));
+            }
+        }
+        House house=houseService.getHouse(token);
+        houseService.updateHouseRole(house,roleList);
+        if(roleList.size()<=0){
+            returnJson.setErrorCode(7003);
+            returnJson.setReturnMessage("房间没有配置角色！");
+            returnJson.setServerStatus(1);
         }
         return returnJson;
     }

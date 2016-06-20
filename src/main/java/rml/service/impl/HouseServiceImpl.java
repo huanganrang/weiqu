@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 import rml.dao.HouseMapper;
 import rml.model.Channel;
 import rml.model.House;
+import rml.model.Role;
 import rml.service.HouseServiceI;
 import rml.util.MD5;
 import rml.util.RandomGUID;
@@ -85,4 +86,13 @@ public class HouseServiceImpl implements HouseServiceI {
     public int updateHouse(House house) {
         return houseMapper.updateHouse(house);
     }
+
+    @Override
+    public void updateHouseRole(House house, List<Role> roleList) {
+        houseMapper.deleteHouseRole(house);
+        house.setRoleList(roleList);
+        houseMapper.insertHouseRole(house);
+
+    }
+
 }

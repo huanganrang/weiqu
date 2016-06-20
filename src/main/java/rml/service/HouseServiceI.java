@@ -2,6 +2,7 @@ package rml.service;
 
 import rml.model.Channel;
 import rml.model.House;
+import rml.model.Role;
 
 import java.util.List;
 
@@ -27,4 +28,5 @@ public interface HouseServiceI {
 
     public int updateHouse(House houHse);
 
+    void updateHouseRole(House house, List<Role> roleList);
 }

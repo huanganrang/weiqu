@@ -15,6 +15,12 @@ public class Role {
     private Integer seq;
     private List<Resource> resourceList= Lists.newArrayList();
 
+    public Role(){}
+
+    public Role(String rid) {
+        this.id=rid;
+    }
+
 
     public String getId() {
         return id;
