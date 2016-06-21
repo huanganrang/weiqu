@@ -13,10 +13,12 @@
         <result column="is_pwd_null" property="isPasswordNull"/>
         <result column="ldesc" property="desc"  />
         <result column="lesson_desc" property="lessonDesc"  />
+        <result column="open_time" property="openTime"/>
+        <result column="open_listen" property="openListen"/>
         <result column="online_user_count" property="onlineUserCount"  />
     </resultMap>
     <sql id="Base_Column_List" >
-        id, title,password,start_time,end_time,token,url,channel_id,room_id,online_user_count,ldesc,lesson_desc,room_id
+        id, title,password,start_time,end_time,token,url,channel_id,room_id,online_user_count,ldesc,lesson_desc,room_id,open_time,open_listen
     </sql>
 
     <select id="getUserHouse" resultMap="BaseResultMap" parameterType="rml.model.House" >
@@ -49,7 +51,7 @@
     </insert>
 
     <insert id="updateHouse" parameterType="rml.model.House" >
-        update tb_house set title = #{title},password = #{password},is_pwd_null=#{isPasswordNull}, token = #{token}, ldesc = #{desc},lesson_desc=#{lessonDesc} where id = #{id}
+        update tb_house set title = #{title},password = #{password},is_pwd_null=#{isPasswordNull},open_listen=#{open_listen},open_time=#{open_time}, token = #{token}, ldesc = #{desc},lesson_desc=#{lessonDesc} where id = #{id}
     </insert>
 
     <update id="updateHouseUser" parameterType="rml.model.House" >

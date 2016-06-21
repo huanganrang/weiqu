@@ -13,7 +13,7 @@
                <result column="tresourcetype_id" property="tResourceTypeId"  />
        </resultMap>
        <sql id="Base_Column_List">
-              id,icon,name,remark,seq,url,pid as parent.id ,pids,tresourcetype_id
+              a.id,a.icon,a.name,a.remark,a.seq,a.url,a.pid as parent.id ,a.pids,a.tresourcetype_id
        </sql>
        <select id="findResourcesByHouseToken" resultMap="BaseResultMap"  >
               select

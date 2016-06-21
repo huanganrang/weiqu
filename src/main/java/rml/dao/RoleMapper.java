@@ -1,11 +1,16 @@
 package rml.dao;
 
+import rml.model.House;
 import rml.model.Role;
+
+import java.util.List;
 
 /**
  * Created by Jianghui on 2016/6/19.
  */
 public interface RoleMapper {
+
+    List<Role> findRoleByHouse(House house);
 
     int insert(Role role);
     int update(Role role);

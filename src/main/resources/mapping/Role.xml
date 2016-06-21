@@ -1,16 +1,22 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="rml.dao.LessonMapper" >
-    <resultMap id="BaseResultMap" type="rml.model.Resource" >
+<mapper namespace="rml.dao.RoleMapper" >
+    <resultMap id="BaseResultMap" type="rml.model.Role" >
         <id column="id" property="id"  />
         <result column="name" property="name"  />
         <result column="remark" property="remark"  />
         <result column="seq" property="seq"  />
     </resultMap>
     <sql id="Base_Column_List">
-        id,name,remark,seq
+        a.id,a.name,a.remark,a.seq
     </sql>
-
+    <select id="findRoleByHouse" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        FROM tb_role a
+        JOIN tb_house_role b ON  b.trole_id=a.id
+        where b.house_id=#{id}
+    </select>
     <insert id="insert">
         INSERT  INTO tb_role(
         id,

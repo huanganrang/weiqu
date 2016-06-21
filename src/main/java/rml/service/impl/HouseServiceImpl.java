@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 import rml.dao.HouseMapper;
+import rml.dao.RoleMapper;
 import rml.model.Channel;
 import rml.model.House;
 import rml.model.Role;
@@ -27,6 +28,9 @@ public class HouseServiceImpl implements HouseServiceI {
     @Autowired
     HouseMapper houseMapper;
 
+    @Autowired
+    RoleMapper roleMapper;
+
 
     @Override
     public House createHouse(House house) {
@@ -49,6 +53,9 @@ public class HouseServiceImpl implements HouseServiceI {
     @Override
     public House getHouse(String token) {
        House house = houseMapper.getHouse(token);
+       List<Role> roleList= roleMapper.findRoleByHouse(house);
+        house.setRoleList(roleList);
+
        return house;
     }
 

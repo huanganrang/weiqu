@@ -348,7 +348,7 @@ public class HouseController {
         return returnJson;
     }
     @RequestMapping(value = "/changeRole")
-    public ReturnJson changeRole(String token,String roleIds){
+    public ReturnJson changeRole(String token,String openlisten,Integer openTime,String roleIds){
         ReturnJson returnJson=new ReturnJson();
         returnJson.setErrorCode(7000);
         returnJson.setReturnMessage("调用成功" + token);
@@ -367,6 +367,9 @@ public class HouseController {
             }
         }
         House house=houseService.getHouse(token);
+        house.setOpenListen(openlisten);
+        house.setOpenTime(openTime);
+        houseService.updateHouse(house);
         houseService.updateHouseRole(house,roleList);
         if(roleList.size()<=0){
             returnJson.setErrorCode(7003);

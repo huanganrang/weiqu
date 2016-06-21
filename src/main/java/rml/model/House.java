@@ -29,6 +29,10 @@ public class House {
 
     private String adminNickName;
 
+    private String openListen;
+
+    private Integer openTime;
+
     private int userId;
 
     private String huanxinRoomId;
@@ -227,4 +231,19 @@ public class House {
         return this;
     }
 
+    public String getOpenListen() {
+        return openListen;
+    }
+
+    public void setOpenListen(String openListen) {
+        this.openListen = openListen;
+    }
+
+    public Integer getOpenTime() {
+        return openTime;
+    }
+
+    public void setOpenTime(Integer openTime) {
+        this.openTime = openTime;
+    }
 }
