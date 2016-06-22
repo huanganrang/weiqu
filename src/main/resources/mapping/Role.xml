@@ -17,6 +17,13 @@
         JOIN tb_house_role b ON  b.trole_id=a.id
         where b.house_id=#{id}
     </select>
+    <select id="findRoleByUser" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        FROM tb_role a
+        JOIN tb_user_house_role b ON  b.trole_id=a.id
+        where b.house_id=#{house.id} and #{user.id}
+    </select>
     <insert id="insert">
         INSERT  INTO tb_role(
         id,

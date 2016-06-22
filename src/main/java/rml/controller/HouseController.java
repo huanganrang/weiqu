@@ -47,6 +47,9 @@ public class HouseController {
     UserServiceI userService;
 
     @Autowired
+    RoleServiceI roleService;
+
+    @Autowired
     private HouseUserServiceI houseUserService;
 
     @Autowired
@@ -293,9 +296,9 @@ public class HouseController {
          return returnJson;
      }
 
-    @RequestMapping(value="/checkHousePwd",method = RequestMethod.POST)
+    @RequestMapping(value="/enterHouse",method = RequestMethod.POST)
     @ResponseBody
-    public ReturnJson checkHousePwd(String houseToken,String pwd){
+    public ReturnJson enterHouse(String houseToken,String pwd){
         ReturnJson returnJson = new ReturnJson();
         returnJson.setErrorCode(7000);
         returnJson.setReturnMessage("调用成功" + houseToken);
@@ -314,6 +317,10 @@ public class HouseController {
                 returnJson.setReturnMessage("密码错误！");
                 returnJson.setServerStatus(1);
                 return returnJson;
+            }else{
+                List<Role> roleList=roleService.findRoleByHouse(house);
+                house.setRoleList(roleList);
+                returnJson.setReturnObject(house);
             }
         }catch (Exception e){
             e.printStackTrace();
@@ -353,6 +360,8 @@ public class HouseController {
         returnJson.setErrorCode(7000);
         returnJson.setReturnMessage("调用成功" + token);
         returnJson.setServerStatus(0);
+        //TODO 判断用户是否有权限修改房间设置
+
         if(StringUtils.isEmpty(token)){
             returnJson.setErrorCode(7002);
             returnJson.setReturnMessage("传入参数为空");
