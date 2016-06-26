@@ -51,7 +51,7 @@
     </insert>
 
     <insert id="updateHouse" parameterType="rml.model.House" >
-        update tb_house set title = #{title},password = #{password},is_pwd_null=#{isPasswordNull},open_listen=#{open_listen},open_time=#{open_time}, token = #{token}, ldesc = #{desc},lesson_desc=#{lessonDesc} where id = #{id}
+        update tb_house set title = #{title},password = #{password},is_pwd_null=#{isPasswordNull},open_listen=#{openListen},open_time=#{openTime}, token = #{token}, ldesc = #{desc},lesson_desc=#{lessonDesc} where id = #{id}
     </insert>
 
     <update id="updateHouseUser" parameterType="rml.model.House" >
