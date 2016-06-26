@@ -311,21 +311,23 @@ public class HouseController {
         }
         try {
             House house=houseService.getHouse(houseToken);
-            String enc= MD5.GetMD5Code(pwd);
-            if(!(house.getPassword()!=null&&house.getPassword().equals(enc))){
-                returnJson.setErrorCode(7003);
-                returnJson.setReturnMessage("密码错误！");
-                returnJson.setServerStatus(1);
-                return returnJson;
-            }else{
-                List<Role> roleList=roleService.findRoleByHouse(house);
-                house.setRoleList(roleList);
-                returnJson.setReturnObject(house);
+            if(StringUtils.isNotEmpty(pwd)){
+                String enc= MD5.GetMD5Code(pwd);
+                if(!(house.getPassword()!=null&&house.getPassword().equals(enc))){
+                    returnJson.setErrorCode(7003);
+                    returnJson.setReturnMessage("密码错误！");
+                    returnJson.setServerStatus(1);
+                    return returnJson;
+                }
             }
+            //TODO 待完善用户权限验证
+            List<Role> roleList=roleService.findRoleByHouse(house);
+            house.setRoleList(roleList);
+            returnJson.setReturnObject(house);
         }catch (Exception e){
             e.printStackTrace();
             returnJson.setErrorCode(7001);
-            returnJson.setReturnMessage("服务器异常");
+            returnJson.setReturnMessage("服务器异常"+e.getMessage());
             returnJson.setServerStatus(2);
         }
         return returnJson;
@@ -349,7 +351,7 @@ public class HouseController {
         }catch (Exception e){
             e.printStackTrace();
             returnJson.setErrorCode(7001);
-            returnJson.setReturnMessage("服务器异常");
+            returnJson.setReturnMessage("服务器异常"+e.getMessage());
             returnJson.setServerStatus(2);
         }
         return returnJson;
