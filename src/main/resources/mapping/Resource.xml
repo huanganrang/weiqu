@@ -13,7 +13,7 @@
                <result column="tresourcetype_id" property="tResourceTypeId"  />
        </resultMap>
        <sql id="Base_Column_List">
-              a.id,a.icon,a.name,a.remark,a.seq,a.url,a.pid as parent.id ,a.pids,a.tresourcetype_id
+              a.id,a.icon,a.name,a.remark,a.seq,a.url,a.pid as "parent.id",a.pids,a.tresourcetype_id
        </sql>
        <select id="findResourcesByHouseToken" resultMap="BaseResultMap"  >
               select
@@ -23,7 +23,7 @@
               JOIN tb_role_resource rr on rr.tresource_id= a.id
               JOIN tb_role r on r.id= rr.trole_id
               JOIN  tb_house_role hr on hr.trole_id= r.id
-              JOIN  tb_house h on h.id= hr.house_id.
+              JOIN  tb_house h on h.id= hr.house_id
               where h.token = #{token}
        </select>
        <insert id="insert" >
