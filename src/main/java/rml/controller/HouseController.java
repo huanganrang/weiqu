@@ -357,6 +357,7 @@ public class HouseController {
         return returnJson;
     }
     @RequestMapping(value = "/changeRole")
+    @ResponseBody
     public ReturnJson changeRole(String token,String openlisten,Integer openTime,String roleIds){
         ReturnJson returnJson=new ReturnJson();
         returnJson.setErrorCode(7000);
