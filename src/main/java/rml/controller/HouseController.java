@@ -332,6 +332,32 @@ public class HouseController {
         }
         return returnJson;
     }
+    @RequestMapping(value="/getHouseSetting",method = RequestMethod.POST)
+    @ResponseBody
+    public ReturnJson getHouseSetting(String houseToken){
+        ReturnJson returnJson = new ReturnJson();
+        returnJson.setErrorCode(7000);
+        returnJson.setReturnMessage("调用成功" + houseToken);
+        returnJson.setServerStatus(0);
+        if(StringUtils.isEmpty(houseToken)){
+            returnJson.setErrorCode(7002);
+            returnJson.setReturnMessage("传入参数为空");
+            returnJson.setServerStatus(1);
+            return returnJson;
+        }
+        try {
+            House house = houseService.getHouse(houseToken);
+            List<Role> roleList = roleService.findRoleByHouse(house);
+            house.setRoleList(roleList);
+            returnJson.setReturnObject(house);
+        }catch (Exception e){
+            e.printStackTrace();
+            returnJson.setErrorCode(7001);
+            returnJson.setReturnMessage("服务器异常"+e.getMessage());
+            returnJson.setServerStatus(2);
+        }
+        return returnJson;
+    }
     @RequestMapping(value = "/getResources")
     @ResponseBody
     public ReturnJson getResources(String token){
@@ -356,6 +382,7 @@ public class HouseController {
         }
         return returnJson;
     }
+
     @RequestMapping(value = "/changeRole")
     @ResponseBody
     public ReturnJson changeRole(String token,String openlisten,Integer openTime,String roleIds){
