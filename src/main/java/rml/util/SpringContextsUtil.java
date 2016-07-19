@@ -81,7 +81,12 @@ public class SpringContextsUtil implements ApplicationContextAware {
     public static Class getType(String name) throws NoSuchBeanDefinitionException {
         return applicationContext.getType(name);
     }
-
+    /**
+     * 从静态变量applicationContext中取得Bean, 自动转型为所赋值对象的类型.
+     */
+    public static <T> T getBean(Class<T> requiredType) {
+        return applicationContext.getBean(requiredType);
+    }
     /**
      * 如果给定的bean名字在bean定义中有别名，则返回这些别名
      * @param name

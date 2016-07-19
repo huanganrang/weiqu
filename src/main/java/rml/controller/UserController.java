@@ -34,8 +34,6 @@ import rml.util.ReturnJson;
 @RequestMapping("/User")
 public class UserController {
 
-
-
 	private static final Logger LOGGER = LoggerFactory.getLogger(UserController.class);
 	private static final JsonNodeFactory factory = new JsonNodeFactory(false);
 

@@ -67,15 +67,15 @@ public class SystemController {
         returnJson.setReturnMessage("调用成功");
         returnJson.setServerStatus(0);
         try{
-          Server server = new Server(houseChat.getPort());
+       /*   Server server = new Server(houseChat.getPort());
           server.start();
-          server.setHouseToken(houseChat.getHouseToken());
+          server.setHouseToken(houseChat.getHouseToken());*/
           //sockets.add(server);
          List<Server> list = values.get(houseChat.getHouseToken());
          if(list==null){
              list = new ArrayList<Server>();
          }
-         list.add(server);
+       /*  list.add(server);*/
          values.put(houseChat.getHouseToken(), list);
         }catch (Exception e){
             e.printStackTrace();

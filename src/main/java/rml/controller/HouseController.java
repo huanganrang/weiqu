@@ -17,6 +17,8 @@ import rml.httpclient.apidemo.EasemobChatGroups;
 import rml.httpclient.apidemo.EasemobIMUsers;
 import rml.httpclient.utils.HTTPClientUtils;
 import rml.model.*;
+import rml.server.HouseKeeper;
+import rml.server.NettyServer;
 import rml.service.*;
 import rml.util.HTTPMethod;
 import rml.util.MD5;
@@ -317,13 +319,18 @@ public class HouseController {
                     returnJson.setErrorCode(7003);
                     returnJson.setReturnMessage("密码错误！");
                     returnJson.setServerStatus(1);
+
                     return returnJson;
                 }
             }
             //TODO 待完善用户权限验证
             List<Role> roleList=roleService.findRoleByHouse(house);
             house.setRoleList(roleList);
+            NettyServer nettyServer=HouseKeeper.getServer(houseToken);
+            String url=nettyServer.getUrl();
+            house.setUrl(url);//nettyServer 地址
             returnJson.setReturnObject(house);
+
         }catch (Exception e){
             e.printStackTrace();
             returnJson.setErrorCode(7001);

@@ -1,5 +1,7 @@
 package rml.model;
 
+import io.netty.channel.*;
+import io.netty.channel.Channel;
 import org.springframework.stereotype.Component;
 
 import java.io.Serializable;
@@ -10,6 +12,8 @@ import java.util.Date;
  */
 public class User{
 
+
+    private io.netty.channel.Channel nettyChannel;
     private String uid;
 
     private String channel;
@@ -258,6 +262,14 @@ public class User{
         if (id != other.id)
             return false;
         return true;
+    }
+
+    public Channel getNettyChannel() {
+        return nettyChannel;
+    }
+
+    public void setNettyChannel(Channel nettyChannel) {
+        this.nettyChannel = nettyChannel;
     }
 
     @Override

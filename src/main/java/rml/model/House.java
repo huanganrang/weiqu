@@ -49,6 +49,8 @@ public class House {
 
     private int isScheduleNull;
 
+    private String url;
+
     private List<Role> roleList= Lists.newArrayList();
     public int getIsScheduleNull() {
         return isScheduleNull;
@@ -245,5 +247,13 @@ public class House {
 
     public void setOpenTime(Integer openTime) {
         this.openTime = openTime;
+    }
+
+    public String getUrl() {
+        return url;
+    }
+
+    public void setUrl(String url) {
+        this.url = url;
     }
 }

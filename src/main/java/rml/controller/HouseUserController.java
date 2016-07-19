@@ -250,12 +250,12 @@ public class HouseUserController {
             returnJson.setReturnMessage("服务器异常" + houseUser.toString());
             returnJson.setServerStatus(1);
         }
-        Server server = new Server(12338);
+        /*Server server = new Server(12338);
         RecordClient client = new RecordClient();
         client.setAction("3");
         client.setHouseToken(houseUser.getHouseToken());
         client.setUserToken(houseUser.getUserToken());
-        server.loopServer(houseUser.getHouseToken(), JSONObject.toJSONString(client));
+        server.loopServer(houseUser.getHouseToken(), JSONObject.toJSONString(client));*/
         returnJson.setReturnObject(houseUser);
         return returnJson;
     }
