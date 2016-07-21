@@ -35,12 +35,16 @@ public class HouseKeeper {
             houseServer.put(token,nettyServer);
             Map<String,User> session=Maps.newConcurrentMap();
             Map<String,String> channelBind=Maps.newConcurrentMap();
-            Map<String,String> audioMap=Maps.newConcurrentMap();
-            Map<String,String> videoMap=Maps.newConcurrentMap();
+            Map<String,String> audioMapSend=Maps.newConcurrentMap();
+            Map<String,String> audioMapReceive=Maps.newConcurrentMap();
+            Map<String,String> videoMapSend=Maps.newConcurrentMap();
+            Map<String,String> videoMapReceive=Maps.newConcurrentMap();
             serverData.get(nettyServer.getUrl()).put("session",session);//初始化session容器
             serverData.get(nettyServer.getUrl()).put("channelRelation",channelBind);//初始化channelRelation容器
-            serverData.get(nettyServer.getUrl()).put("audioMap",audioMap);//语音列表
-            serverData.get(nettyServer.getUrl()).put("videoMap",videoMap);//视频列表
+            serverData.get(nettyServer.getUrl()).put("audioMapSend",audioMapSend);//语音列表 action:send
+            serverData.get(nettyServer.getUrl()).put("audioMapReceive",audioMapReceive);//语音列表 action:receive
+            serverData.get(nettyServer.getUrl()).put("videoMapSend",videoMapSend);//视频列表
+            serverData.get(nettyServer.getUrl()).put("videoMapReceive",videoMapReceive);//视频列表
         }
         return nettyServer;
     }
@@ -76,12 +80,19 @@ public class HouseKeeper {
         return (Map<String, String>) serverData.get("channelRelation");
     }
 
-    public static Map<String,String> getAudioMap(String serverUri){
-        return (Map<String,String>) getServerData(serverUri).get("audioMap");
+    public static Map<String,String> getAudioMapSend(String serverUri){
+        return (Map<String,String>) getServerData(serverUri).get("audioMapSend");
+    }
+    public static Map<String,String> getAudioMapReceive(String serverUri){
+        return (Map<String,String>) getServerData(serverUri).get("audioMapReceive");
     }
 
-    public static Map<String,String> getVideoMap(String serverUri){
-        return (Map<String,String>) getServerData(serverUri).get("videoMap");
+    public static Map<String,String> getVideoMapSend(String serverUri){
+        return (Map<String,String>) getServerData(serverUri).get("videoMapSend");
+    }
+
+    public static Map<String,String> getVideoMapReceive(String serverUri){
+        return (Map<String,String>) getServerData(serverUri).get("videoMapReceive");
     }
 
     public static User getCurrentUser(String serverUri,String token){
@@ -95,7 +106,9 @@ public class HouseKeeper {
     public static void logout(Channel channel){
         String token=getChannelRelation(channel.localAddress().toString()).remove(channel.remoteAddress().toString());
         getSessions(channel.localAddress().toString()).remove(token);
-        getAudioMap(channel.localAddress().toString()).remove(token);
-        getVideoMap(channel.localAddress().toString()).remove(token);
+        getAudioMapSend(channel.localAddress().toString()).remove(token);
+        getAudioMapReceive(channel.localAddress().toString()).remove(token);
+        getVideoMapSend(channel.localAddress().toString()).remove(token);
+        getVideoMapReceive(channel.localAddress().toString()).remove(token);
     }
 }

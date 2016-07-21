@@ -3,6 +3,7 @@ package rml.handler;
 import com.fasterxml.jackson.databind.JsonNode;
 import io.netty.channel.ChannelHandlerAdapter;
 import io.netty.channel.ChannelHandlerContext;
+import jersey.repackaged.com.google.common.collect.Maps;
 import rml.model.User;
 import rml.server.HouseKeeper;
 import rml.util.JsonMapper;
@@ -22,7 +23,13 @@ public class VideoRespHandler extends ChannelHandlerAdapter {
         JsonNode jsonNode= JsonMapper.getInstance().readValue(message, JsonNode.class);
         String token= jsonNode.get("sessionid").asText();
         if("video".equals(jsonNode.get("type").asText())){
-            Map<String,String> videoList= HouseKeeper.getVideoMap(ctx.channel().localAddress().toString());
+            Map<String,String> videoList=null;
+            if("send".equals(jsonNode.get("action").asText()))
+                videoList=HouseKeeper.getAudioMapSend(ctx.channel().localAddress().toString());
+            else if("receive".equals(jsonNode.get("action").asText()))
+                videoList=HouseKeeper.getAudioMapReceive(ctx.channel().localAddress().toString());
+            else
+                videoList = Maps.newConcurrentMap();
             User user=HouseKeeper.getCurrentUser(ctx.channel().localAddress().toString(),token);
             String userStr=JsonMapper.getInstance().toJson(user);
             String pre=message.substring(0,message.length()-1);
