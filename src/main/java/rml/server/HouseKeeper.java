@@ -4,6 +4,7 @@ import com.google.api.client.util.Lists;
 import io.netty.channel.Channel;
 import jersey.repackaged.com.google.common.collect.Maps;
 import org.springframework.util.SocketUtils;
+import rml.comm.Global;
 import rml.model.User;
 import sun.nio.ch.Net;
 
@@ -51,7 +52,7 @@ public class HouseKeeper {
     private static NettyServer initServer(){
         NettyServer  nettyServer=new NettyServer();
         int result= SocketUtils.findAvailableTcpPort();
-        nettyServer.setHost("localhost");
+        nettyServer.setHost(Global.getConfig("server.ip"));
         nettyServer.setPort(result);
         try {
             nettyServer.bind();
