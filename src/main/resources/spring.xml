@@ -20,7 +20,7 @@ http://www.springframework.org/schema/context/spring-context-3.0.xsd
 
 	<bean id="jedisPool" class="redis.clients.jedis.JedisPool">
 		<constructor-arg index="0" ref="jedisPoolConfig" />
-		<constructor-arg index="1" value="${redis.host}" />
+		<constructor-arg index="1" value="${redis.host}" type="java.lang.String" />
 		<constructor-arg index="2" value="${redis.port}" type="int" />
 	</bean>
 </beans>
