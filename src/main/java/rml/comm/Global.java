@@ -18,7 +18,7 @@ public class Global {
     /**
      * 属性文件加载对象
      */
-    private static PropertiesLoader propertiesLoader = new PropertiesLoader("redis.properties","RestAPIConfig.properties");
+    private static PropertiesLoader propertiesLoader = new PropertiesLoader("config.properties","RestAPIConfig.properties");
 
     /**
      * 获取配置
