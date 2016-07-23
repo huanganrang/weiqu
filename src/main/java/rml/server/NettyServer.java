@@ -76,6 +76,8 @@ public class NettyServer {
                         ch.pipeline().addLast(new AudioRespHandler());
                         ch.pipeline().addLast(new VideoRespHandler());
                         ch.pipeline().addLast(new ReqAVRespHandler());
+                        ch.pipeline().addLast(new AudioCloseRespHandler());
+                        ch.pipeline().addLast(new VideoCloseRespHandler());
                     }
                 });
     }

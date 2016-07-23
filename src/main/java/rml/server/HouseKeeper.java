@@ -112,4 +112,14 @@ public class HouseKeeper {
         getVideoMapSend(channel.localAddress().toString()).remove(token);
         getVideoMapReceive(channel.localAddress().toString()).remove(token);
     }
+    public static void closeAudio(Channel channel){
+        String token=getChannelRelation(channel.localAddress().toString()).get(channel.remoteAddress().toString());
+        getAudioMapSend(channel.localAddress().toString()).remove(token);
+        getAudioMapReceive(channel.localAddress().toString()).remove(token);
+    }
+    public static void closeVideo(Channel channel){
+        String token=getChannelRelation(channel.localAddress().toString()).get(channel.remoteAddress().toString());
+        getVideoMapSend(channel.localAddress().toString()).remove(token);
+        getVideoMapReceive(channel.localAddress().toString()).remove(token);
+    }
 }
