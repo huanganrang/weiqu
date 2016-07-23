@@ -35,8 +35,18 @@ public class VideoRespHandler extends ChannelHandlerAdapter {
             String pre=message.substring(0,message.length()-1);
             String newMsg=pre+",\"user\":"+userStr+"}";
             videoList.put(token,newMsg);
+            notifyAllUser(ctx.channel().localAddress().toString(),token,newMsg);
         }else {
             ctx.fireChannelRead(msg);
+        }
+    }
+    private void notifyAllUser(String s, String token, String newMsg) {
+        Map<String,User> sessions= HouseKeeper.getSessions(s);
+        for(User user:sessions.values()){
+            if(user.getToken().equals(token)){
+                continue;
+            }
+            user.getNettyChannel().writeAndFlush(newMsg);
         }
     }
 }
