@@ -1,5 +1,6 @@
 package rml.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import io.netty.channel.*;
 import io.netty.channel.Channel;
 import org.springframework.stereotype.Component;
@@ -264,6 +265,7 @@ public class User{
         return true;
     }
 
+    @JsonIgnore
     public Channel getNettyChannel() {
         return nettyChannel;
     }

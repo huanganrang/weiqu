@@ -8,6 +8,7 @@ import io.netty.channel.ChannelHandlerContext;
 import jdk.nashorn.internal.parser.JSONParser;
 import net.sf.json.groovy.GJson;
 import net.sf.json.util.JSONBuilder;
+import rml.model.Message;
 import rml.model.User;
 import rml.server.HouseKeeper;
 import rml.util.JsonMapper;
@@ -24,8 +25,8 @@ public class HeartBeatRespHandler extends ChannelHandlerAdapter {
     @Override
     public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
 
-        String message = (String) msg;
-        JsonNode jsonNode= JsonMapper.getInstance().readValue(message, JsonNode.class);
+        Message message= (Message) msg;
+        JsonNode jsonNode= JsonMapper.getInstance().readValue(message.getData(), JsonNode.class);
         if("heart".equals(jsonNode.get("type").asText())){
             Map<String,Object> serverData= HouseKeeper.getServerData(ctx.channel().localAddress().toString());
             Map<String,User> sessions= (Map<String, User>) serverData.get("session");

@@ -66,8 +66,8 @@ public class NettyServer {
                     @Override
                     protected void initChannel(SocketChannel ch) throws Exception {
                         ch.pipeline().addLast(
-                                new StringDecoder(Charset.forName("utf-8")));
-                        ch.pipeline().addLast(new StringEncoder(Charset.forName("utf-8")));
+                                new MessageDecoder(1024 * 1024, 1, 4));
+                        ch.pipeline().addLast(new MessageEncoder());
                         ch.pipeline().addLast("readTimeOutHandler",
                                 new ReadTimeoutHandler(60));//读
                         ch.pipeline().addLast("loginHandler",new LoginAuthRespHandler());

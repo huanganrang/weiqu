@@ -3,6 +3,7 @@ package rml.handler;
 import com.fasterxml.jackson.databind.JsonNode;
 import io.netty.channel.ChannelHandlerAdapter;
 import io.netty.channel.ChannelHandlerContext;
+import rml.model.Message;
 import rml.model.User;
 import rml.server.HouseKeeper;
 import rml.util.JsonMapper;
@@ -18,8 +19,8 @@ public class VideoCloseRespHandler extends ChannelHandlerAdapter {
 
     @Override
     public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
-        String message= (String) msg;
-        JsonNode jsonNode= JsonMapper.getInstance().readValue(message, JsonNode.class);
+        Message message= (Message) msg;
+        JsonNode jsonNode= JsonMapper.getInstance().readValue(message.getData(), JsonNode.class);
         if("videoClose".equals(jsonNode.get("type").asText())){
             HouseKeeper.closeVideo(ctx.channel());//
             String stoken=HouseKeeper.getChannelRelation(ctx.channel().localAddress().toString()).get(ctx.channel().remoteAddress().toString());

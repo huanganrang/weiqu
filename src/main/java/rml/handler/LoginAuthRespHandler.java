@@ -6,6 +6,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 import io.netty.channel.ChannelHandlerAdapter;
 import io.netty.channel.ChannelHandlerContext;
 
+import rml.model.Message;
 import rml.model.User;
 import rml.server.HouseKeeper;
 import rml.service.UserServiceI;
@@ -23,8 +24,8 @@ public class LoginAuthRespHandler extends ChannelHandlerAdapter {
 
     @Override
     public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
-        String message= (String) msg;
-        JsonNode jsonNode= JsonMapper.getInstance().readValue(message, JsonNode.class);
+        Message message= (Message) msg;
+        JsonNode jsonNode= JsonMapper.getInstance().readValue(message.getData(), JsonNode.class);
         String token= jsonNode.get("sessionid").asText();
         if("login".equals(jsonNode.get("type").asText())){
             User user= HouseKeeper.getCurrentUser(ctx.channel().localAddress().toString(),token);
