@@ -13,9 +13,10 @@ import rml.model.Message;
 public class MessageEncoder extends MessageToByteEncoder<Message> {
     @Override
     protected void encode(ChannelHandlerContext ctx, Message msg, ByteBuf out) throws Exception {
+       byte[]data=msg.getData().getBytes("utf-8");
         out.writeByte(msg.getHead());
-        out.writeInt(msg.getLength());
-        out.writeBytes(msg.getData().getBytes("utf-8"));
+        out.writeInt(data.length+1);
+        out.writeBytes(data);
         out.writeByte(msg.getTail());
     }
 }

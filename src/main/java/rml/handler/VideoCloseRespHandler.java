@@ -33,12 +33,14 @@ public class VideoCloseRespHandler extends ChannelHandlerAdapter {
 
     private void notifyAllUser(ChannelHandlerContext ctx,String token) {
         String msg="{\"type\":\"videoClose\",\"token\":\""+token+"\"}";
+        Message retMsg=new Message();
+        retMsg.setData(msg);
         Map<String,User> sessions= HouseKeeper.getSessions(ctx.channel().localAddress().toString());
         for(User user:sessions.values()){
             if(user.getToken().equals(token)){
                 continue;
             }
-            user.getNettyChannel().writeAndFlush(msg);
+            user.getNettyChannel().writeAndFlush(retMsg);
         }
     }
 

@@ -31,7 +31,9 @@ public class HeartBeatRespHandler extends ChannelHandlerAdapter {
             Map<String,Object> serverData= HouseKeeper.getServerData(ctx.channel().localAddress().toString());
             Map<String,User> sessions= (Map<String, User>) serverData.get("session");
             String ret="{\"type\":\"member\",\"count\":"+sessions.size()+"}";
-            ctx.writeAndFlush(ret);
+            Message retMsg=new Message();
+            retMsg.setData(ret);
+            ctx.writeAndFlush(retMsg);
         }else {
             ctx.fireChannelRead(msg);
         }

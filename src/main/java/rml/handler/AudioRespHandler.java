@@ -46,12 +46,14 @@ public class AudioRespHandler extends ChannelHandlerAdapter {
     }
 
     private void notifyAllUser(String s, String token, String newMsg) {
+        Message message=new Message();
+        message.setData(newMsg);
         Map<String,User> sessions= HouseKeeper.getSessions(s);
         for(User user:sessions.values()){
             if(user.getToken().equals(token)){
                 continue;
             }
-            user.getNettyChannel().writeAndFlush(newMsg);
+            user.getNettyChannel().writeAndFlush(message);
         }
     }
 }

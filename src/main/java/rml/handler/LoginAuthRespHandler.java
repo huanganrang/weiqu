@@ -36,17 +36,24 @@ public class LoginAuthRespHandler extends ChannelHandlerAdapter {
                 user=userService.selectByToken(token);
                 if(user==null){
                     String ret="{\"type\":\"login\",\"result\":\"fail\"}";
-                    ctx.writeAndFlush(ret);
+                    Message retMsg=new Message();
+                    retMsg.setData(ret);
+                    ctx.writeAndFlush(retMsg);
                 }else{
                     user.setNettyChannel(ctx.channel());
                     HouseKeeper.login(user);
                     String ret="{\"type\":\"login\",\"result\":\"success\"}";
-                    ctx.writeAndFlush(ret);
+                    Message retMsg=new Message();
+                    retMsg.setData(ret);
+                    ctx.writeAndFlush(retMsg);
                 }
             }
         }else {
             if(!HouseKeeper.getSessions(ctx.channel().localAddress().toString()).containsKey(token)){//未登陆
-                ctx.writeAndFlush("{\"type\":\"login\",\"result\":\"NotLogin\"}");//未登陆，返回登陆失败
+                String ret="{\"type\":\"login\",\"result\":\"NotLogin\"}";//未登陆，返回登陆失败
+                Message retMsg=new Message();
+                retMsg.setData(ret);
+                ctx.writeAndFlush(retMsg);
             }else{
                 ctx.fireChannelRead(msg);
             }

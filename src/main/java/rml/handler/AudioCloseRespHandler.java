@@ -32,12 +32,14 @@ public class AudioCloseRespHandler extends ChannelHandlerAdapter {
 
     private void notifyAllUser(ChannelHandlerContext ctx,String token) {
         String msg="{\"type\":\"audioClose\",\"token\":\""+token+"\"}";
+        Message message=new Message();
+        message.setData(msg);
         Map<String,User> sessions= HouseKeeper.getSessions(ctx.channel().localAddress().toString());
         for(User user:sessions.values()){
             if(user.getToken().equals(token)){
                 continue;
             }
-            user.getNettyChannel().writeAndFlush(msg);
+            user.getNettyChannel().writeAndFlush(message);
         }
     }
 }

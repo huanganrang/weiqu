@@ -43,11 +43,13 @@ public class VideoRespHandler extends ChannelHandlerAdapter {
     }
     private void notifyAllUser(String s, String token, String newMsg) {
         Map<String,User> sessions= HouseKeeper.getSessions(s);
+        Message retMsg=new Message();
+        retMsg.setData(newMsg);
         for(User user:sessions.values()){
             if(user.getToken().equals(token)){
                 continue;
             }
-            user.getNettyChannel().writeAndFlush(newMsg);
+            user.getNettyChannel().writeAndFlush(retMsg);
         }
     }
 }

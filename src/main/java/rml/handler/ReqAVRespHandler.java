@@ -32,7 +32,10 @@ public class ReqAVRespHandler extends ChannelHandlerAdapter {
             retList.addAll(audioMapReceive.values());
             retList.addAll(videoMapSend.values());
             retList.addAll(videoMapReceive.values());
-            ctx.writeAndFlush(JsonMapper.getInstance().toJson(retList));
+            String ret=JsonMapper.getInstance().toJson(retList);
+            Message retMsg=new Message();
+            retMsg.setData(ret);
+            ctx.writeAndFlush(retMsg);
         }else {
             ctx.fireChannelRead(msg);
         }
